@@ -1,3 +1,5 @@
+import { BALL_RADIUS } from "./Constant"
+
 class Ball {
     constructor (p, x, y, radius, velocity, direction) {
         this.p = p
@@ -46,7 +48,7 @@ class BallContainer {
                     this.p,
                     this.p.windowWidth/2,
                     this.p.windowHeight/2,
-                    50,
+                    BALL_RADIUS,
                     Math.random() * 10 + 10,
                     Math.random() * 2 * Math.PI
                 )
@@ -71,7 +73,7 @@ class BallContainer {
                 let ball2 = this.balls[j]
                 let xDif = ball1.x - ball2.x
                 let yDif = ball1.y - ball2.y
-                if(xDif**2 + yDif**2 < (ball1.radius + ball2.radius)**2) {
+                if(xDif**2 + yDif**2 < (ball1.radius + ball2.radius + 100)**2) {
                     [ball1.velocity, ball2.velocity] = [ball2.velocity, ball1.velocity]
                     ball1.direction = ball1.direction - Math.PI
                     ball2.direction = ball2.direction - Math.PI
@@ -89,7 +91,7 @@ class BallContainer {
 
     draw() {
         for(const ball of this.balls) {
-            ball.draw(this.p)
+            ball.draw()
         }
     }
 }
