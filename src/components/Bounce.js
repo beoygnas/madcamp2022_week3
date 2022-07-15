@@ -1,7 +1,7 @@
 import React from "react";
 import Sketch from "react-p5";
 
-import { Ball, BallContainer } from "./Ball";
+import { BallContainer } from "./Ball";
 
 const Bounce = () => {
     let numBalls = 5
