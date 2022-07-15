@@ -9,7 +9,7 @@ const Bounce = () => {
 
     const setup = (p, canvasParentRef) => {
         ballContainer = new BallContainer(p, numBalls)
-        p.createCanvas(p.windowWidth, p.windowHeight);
+        p.createCanvas(p.windowWidth, p.windowHeight)
         p.background("gray");
     }
 
@@ -34,9 +34,7 @@ const Bounce = () => {
     }
 
     return (
-        <div>
-            <Sketch setup={setup} draw={draw} mousePressed = {mousePressed} mouseReleased = {mouseReleased} mouseDragged = {mouseDragged}/>
-        </div>
+        <Sketch position="absolute" setup={setup} draw={draw} mousePressed = {mousePressed} mouseReleased = {mouseReleased} mouseDragged = {mouseDragged}/>
     );
 };
 
