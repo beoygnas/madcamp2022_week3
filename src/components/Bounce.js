@@ -6,15 +6,32 @@ import { BallContainer } from "./Ball";
 const Bounce = () => {
     let numBalls = 5
     let ballContainer
+    let img;
+    let profiles = Array()
+    
+    const preload = (p) => {
+        img = p.loadImage('assets/sky.jpg', () => {
+            console.log('hi')
+        })
+        
+        for(let i=1; i<=2 ;i++){
+            profiles[i] = p.loadImage(`assets/profile${i}.png`, () => {
+            })
+        }
+    }
 
     const setup = (p, canvasParentRef) => {
-        ballContainer = new BallContainer(p, numBalls)
+        var names = ['김찬우', '김상엽', '조예진', '최가희', '강지훈']
+        var images = [profiles[1], profiles[2], img, img, img]
+
+        ballContainer = new BallContainer(p, numBalls, names, images)
         p.createCanvas(p.windowWidth, p.windowHeight);
         p.background("gray");
+        p.image(img, 0, 0);
     }
 
     const draw = (p) => {
-        p.background("gray")
+        p.background(255, 250, 243)
         ballContainer.ballCollision()
         ballContainer.wallCollision()
         ballContainer.isMouseOn()
@@ -33,9 +50,12 @@ const Bounce = () => {
         ballContainer.mouseDragged(p)
     }
 
+
     return (
         <div>
-            <Sketch setup={setup} draw={draw} mousePressed = {mousePressed} mouseReleased = {mouseReleased} mouseDragged = {mouseDragged}/>
+            <Sketch setup={setup} draw={draw} mousePressed = {mousePressed} mouseReleased = {mouseReleased} mouseDragged = {mouseDragged}
+            preload = {preload}
+            />
         </div>
     );
 };

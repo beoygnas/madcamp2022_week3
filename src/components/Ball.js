@@ -1,7 +1,9 @@
+import { getRootState } from "@react-three/fiber"
 import { BALL_RADIUS } from "./Constant"
 
+
 class Ball {
-    constructor (p, x, y, radius, velocity, direction) {
+    constructor (p, x, y, radius, velocity, direction, name, image) {
         this.p = p
         this.x = x
         this.y = y
@@ -11,8 +13,14 @@ class Ball {
         this.locked = false
         this.xOffset = 0
         this.yOffset = 0
+        this.name = name
+        this.image = image
+        this.degree = 0
+        this.degreeSpeed = 0
+
         // this.color
-        // this.img
+        // this.img = p.loadImage('assets/sky.jpg')
+        // console.log(this.img)
         // this.text
     }
 
@@ -38,14 +46,22 @@ class Ball {
 
         this.x += Math.cos(this.direction) * this.velocity * 1
         this.y += Math.sin(this.direction) * this.velocity * 1
+        
+        this.degree += this.degreeSpeed
+
     }
 
     draw() {
-        
-        this.p.fill(255, 255, 255);
-        this.p.stroke(0, 0, 0);
-        this.p.strokeWeight(3);
 
+        this.p.push()
+        this.p.translate(this.x, this.y);
+        this.p.rotate(Math.PI * this.degree)
+        
+        this.p.fill(0, 193, 255);
+        this.p.noStroke()
+        this.p.strokeWeight(3);
+        
+        
         if(this.isMouseOn()){
             if(!this.locked){
                 this.p.fill('red');
@@ -57,8 +73,31 @@ class Ball {
             }
         }
 
-        this.p.circle(this.x, this.y, this.radius*2)
+        // this.p.circle(this.x, this.y, this.radius*2)
+        // this.p.text(this.name, this.x - 15, this.y - 50)
+        // this.p.image(this.image, this.x - 50, this.y - 50, 100, 100)
+        
+        for(let i=0 ; i< 1000; i++){
+            
+            let x = this.radius * Math.cos(Math.random() * 2 * Math.PI)
+            let y = this.radius * Math.sin(Math.random() * 2 * Math.PI)  
+
+            this.p.circle(0 +  x, 0 + y, this.radius / 2)
+        }
+
+        this.p.image(this.image, 0 - 50, 0 - 50, 100, 100)
+        
+        this.p.strokeWeight(1);
+        this.p.stroke(180, 180, 180);
+        this.p.fill(180, 180, 180);
+        this.p.textSize(20);
+        // this.p.textStyle(BOLD);
+        this.p.text(this.name, 0 - 20, 0 + 100)
+
         this.move()
+        this.p.pop()
+
+        // this.p.rotateZ(millis() / 1000);
     }
     
 
@@ -99,10 +138,12 @@ class Ball {
 }
 
 class BallContainer {
-    constructor(p, num) {
+    constructor(p, num, names, images) {
         this.p = p
         this.num = num
         this.balls = []
+        this.names = names
+        this.images = images
         this.buildBalls()
     }
 
@@ -117,7 +158,9 @@ class BallContainer {
                     Math.random() * this.p.windowHeight,
                     BALL_RADIUS,
                     Math.random() * 10 + 5,
-                    Math.random() * 2 * Math.PI
+                    Math.random() * 2 * Math.PI,
+                    this.names[i],
+                    this.images[i]
                 )
             )
         }
@@ -184,6 +227,9 @@ class BallContainer {
                         ball1.direction = Math.atan2(new_v1_y, new_v1_x)
                         ball2.velocity = Math.sqrt(new_v2_x ** 2 + new_v2_y ** 2);
                         ball2.direction = Math.atan(new_v2_y, new_v2_x)
+
+                        ball1.degreeSpeed = Math.random() * 0.001
+                        ball2.degreeSpeed = Math.random() * 0.001
                     }
                 }
             }
@@ -200,6 +246,7 @@ class BallContainer {
 
     draw() {
         for(const ball of this.balls) {
+
             ball.draw()
         }
     }
