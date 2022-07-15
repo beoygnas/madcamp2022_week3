@@ -15,14 +15,27 @@ const Bounce = () => {
 
     const draw = (p) => {
         p.background("gray")
-        ballContainer.wallCollision()
         ballContainer.ballCollision()
+        ballContainer.wallCollision()
+        ballContainer.isMouseOn()
         ballContainer.draw(p)
+    }
+
+    const mousePressed = (p) => {
+        ballContainer.mousePressed(p)
+    }
+
+    const mouseReleased = (p) => {
+        ballContainer.mouseReleased(p)
+    }
+
+    const mouseDragged = (p) => {
+        ballContainer.mouseDragged(p)
     }
 
     return (
         <div>
-            <Sketch setup={setup} draw={draw} />
+            <Sketch setup={setup} draw={draw} mousePressed = {mousePressed} mouseReleased = {mouseReleased} mouseDragged = {mouseDragged}/>
         </div>
     );
 };
