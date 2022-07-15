@@ -4,6 +4,8 @@ import { BrowserRouter, Link, Route, Routes } from "react-router-dom"
 import Member from "./Member";
 import Three from "./Three";
 import MainBackground from "../components/MainBackground";
+import Bounce from "../components/Bounce";
+import MainBackground2 from "../components/MainBackground2";
 
 function Main() {
     // const logo = document.querySelectorAll("#logo path")
@@ -13,8 +15,9 @@ function Main() {
     // }
     
     return <>
-        <MainBackground>
-        </MainBackground>
+        <MainBackground2>
+            
+        </MainBackground2>
         <svg id="logo" width="524" height="82" viewBox="0 0 524 82" fill="none" xmlns="http://www.w3.org/2000/svg">
         <mask id="path-1-outside-1_26_7" maskUnits="userSpaceOnUse" x="0.5" y="0.600006" width="523" height="81" fill="black">
         <rect fill="white" x="0.5" y="0.600006" width="523" height="81"/>
@@ -54,6 +57,14 @@ function Main() {
 //     animation: ${boxColor} 1s ease forwards 3s;
 // `
 
+const LocationDiv = styled.div`
+    position: absolute;
+    top:50%;
+    left:50%;
+    background-color:black;
+    width: 20vw;
+    height: 20vh;
+`
 
 
 export default Main
