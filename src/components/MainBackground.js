@@ -12,7 +12,7 @@ function Container() {
             ref={mesh}
             scale={1}
         >
-            <sphereGeometry args={[4, 128, 128]}></sphereGeometry>
+            <sphereGeometry args={[4, 16, 16]}></sphereGeometry>
             <meshBasicMaterial color="#00c1ff" />
             <Text position={[0, 0.3, 4]}>hello world!</Text>
         </mesh>
