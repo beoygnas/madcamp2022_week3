@@ -4,23 +4,20 @@ import { Ball } from "./Ball";
 import { BallContainer } from "./Ball";
 import { Particle } from "./Bubble";
 import { Circle } from "@react-three/drei";
+import { Data } from "./Constant";
 
 const Bounce = () => {
     let numBalls = 5
     let ballContainer
-    let img;
     let profiles = Array()
     var extraCanvas
     var selected_ball
     var new_ball = null
 
     const preload = (p, canvasParentRef) => {
-        img = p.loadImage('assets/sky.jpg')
-        profiles[0] = p.loadImage('assets/profile0.png')
 
-        for(let i=1; i<=2 ;i++){
-            profiles[i] = p.loadImage(`assets/profile${i}.png`, () => {
-            })
+        for(let i=0; i < numBalls ;i++){
+            Data.images[i] = p.loadImage(`assets/${Data.name[i]}.png`)
         }
     }
 
@@ -118,8 +115,6 @@ const Bounce = () => {
     const mouseReleased = (p) => {
         if(ballContainer.type == 0)
             ballContainer.mouseReleased(p)
-        
-        console.log("release")
     }
 
     const mouseDragged = (p) => {
@@ -129,7 +124,6 @@ const Bounce = () => {
 
     const mouseClicked = (p) => {
 
-        console.log("12345");
         if(ballContainer.type == 1){
             
             if(!ballContainer.clicked){

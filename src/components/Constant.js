@@ -53,4 +53,4 @@ const Data = {
     
 }
 
-export { BALL_RADIUS, BALL_RADIUS_OFFSET }
+export { BALL_RADIUS, BALL_RADIUS_OFFSET, Data }
