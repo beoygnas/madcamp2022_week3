@@ -22,7 +22,7 @@ const Bounce = () => {
 
     const setup = (p, canvasParentRef) => {
         var names = ['김찬우', '김상엽', '조예진', '최가희', '강지훈']
-        var images = [profiles[1], profiles[2], img, img, img]
+        var images = [profiles[1], profiles[2], profiles[1], profiles[2], profiles[1]]
 
         ballContainer = new BallContainer(p, numBalls, names, images)
         p.createCanvas(p.windowWidth, p.windowHeight);

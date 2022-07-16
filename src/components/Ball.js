@@ -1,9 +1,10 @@
 import { getRootState } from "@react-three/fiber"
 import { BALL_RADIUS } from "./Constant"
-
+import { Bubble } from "./Bubble"
 
 class Ball {
     constructor (p, x, y, radius, velocity, direction, name, image) {
+        
         this.p = p
         this.x = x
         this.y = y
@@ -17,6 +18,8 @@ class Ball {
         this.image = image
         this.degree = 0
         this.degreeSpeed = 0
+        this.particles = []
+        this.build()
 
         // this.color
         // this.img = p.loadImage('assets/sky.jpg')
@@ -32,26 +35,35 @@ class Ball {
     }
 
     move() {
-        if(this.x + Math.cos(this.direction) * this.velocity * 1 < 0 && Math.cos(this.direction) < 0)
-            this.x -= Math.cos(this.direction) * this.velocity * 2;
 
-        if(this.y + Math.sin(this.direction) * this.velocity * 1 < 0 && Math.sin(this.direction) < 0)
-            this.y -= Math.sin(this.direction) * this.velocity * 2; 
-
-        if(this.x + Math.cos(this.direction) * this.velocity * 1 > this.p.windowWidth && Math.cos(this.direction) > 0)
-            this.x -= Math.cos(this.direction) * this.velocity * 2;
-
-        if(this.y + Math.sin(this.direction) * this.velocity * 1 > this.p.windowHeight && Math.sin(this.direction) < 0)
-            this.y -= Math.sin(this.direction) * this.velocity * 2 ;
-
-        this.x += Math.cos(this.direction) * this.velocity * 1
-        this.y += Math.sin(this.direction) * this.velocity * 1
+        var dist_x = Math.cos(this.direction) * this.velocity 
+        var dist_y = Math.sin(this.direction) * this.velocity
         
+        if(this.x + dist_x * 1 < 0 && Math.cos(this.direction) < 0)
+            this.x -= dist_x * 2;
+
+        if(this.y + dist_y * 1 < 0 && Math.sin(this.direction) < 0)
+            this.y -= dist_y * 2; 
+
+        if(this.x + dist_x * 1 > this.p.windowWidth && Math.cos(this.direction) > 0)
+            this.x -= dist_x * 2;
+
+        if(this.y + dist_y * 1 > this.p.windowHeight && Math.sin(this.direction) < 0)
+            this.y -= dist_y * 2 ;
+
+        this.x += dist_x * 1
+        this.y += dist_y * 1
         this.degree += this.degreeSpeed
 
+        for(const particle of this.particles){
+            particle.move(dist_x, dist_y)
+        }
     }
 
     draw() {
+
+        for(const particle of this.particles)
+            particle.draw()
 
         this.p.push()
         this.p.translate(this.x, this.y);
@@ -76,28 +88,18 @@ class Ball {
         // this.p.circle(this.x, this.y, this.radius*2)
         // this.p.text(this.name, this.x - 15, this.y - 50)
         // this.p.image(this.image, this.x - 50, this.y - 50, 100, 100)
-        
-        for(let i=0 ; i< 1000; i++){
-            
-            let x = this.radius * Math.cos(Math.random() * 2 * Math.PI)
-            let y = this.radius * Math.sin(Math.random() * 2 * Math.PI)  
-
-            this.p.circle(0 +  x, 0 + y, this.radius / 2)
-        }
-
+   
         this.p.image(this.image, 0 - 50, 0 - 50, 100, 100)
         
         this.p.strokeWeight(1);
         this.p.stroke(180, 180, 180);
         this.p.fill(180, 180, 180);
         this.p.textSize(20);
-        // this.p.textStyle(BOLD);
-        this.p.text(this.name, 0 - 20, 0 + 100)
 
-        this.move()
+        this.p.text(this.name, 0 - 20, 0 + 100)
         this.p.pop()
 
-        // this.p.rotateZ(millis() / 1000);
+        this.move()
     }
     
 
@@ -131,11 +133,51 @@ class Ball {
     mouseDragged(){
         
         if(this.locked){
+            var tmp_x = this.x
+            var tmp_y = this.y
+
             this.x = this.p.mouseX - this.xOffset;
             this.y = this.p.mouseY - this.yOffset;
+            
+            for(const particle of this.particles){
+                particle.x += this.x - tmp_x
+                particle.y += this.y - tmp_y
+            }
+        }
+    }
+
+    build(){
+        for(let i=0; i<500; i++) {
+            let r = Math.random() * this.radius * 0.6
+            let theta = Math.random() * Math.PI * 2
+            this.particles.push(
+                new Particle(this.p, r*Math.cos(theta) + this.x, r*Math.sin(theta) + this.y, this.radius/3)
+            )
         }
     }
 }
+
+
+class Particle {
+    constructor(p, x, y, radius) {
+        this.p = p
+        this.x = x
+        this.y = y
+        this.radius = radius
+    }
+
+    draw () {
+        this.p.noStroke()
+        this.p.fill(0, 193, 255)
+        this.p.circle(this.x, this.y, this.radius * 2)
+    }
+
+    move (dist_x, dist_y){
+        this.x += dist_x
+        this.y += dist_y
+    }
+}
+
 
 class BallContainer {
     constructor(p, num, names, images) {
@@ -246,7 +288,6 @@ class BallContainer {
 
     draw() {
         for(const ball of this.balls) {
-
             ball.draw()
         }
     }
