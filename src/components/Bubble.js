@@ -44,4 +44,4 @@ class Particle {
     }
 }
 
-export { Bubble }
+export { Bubble , Particle }

@@ -3,7 +3,7 @@ import { BALL_RADIUS } from "./Constant"
 import { Bubble } from "./Bubble"
 
 class Ball {
-    constructor (p, x, y, radius, velocity, direction, name, image) {
+    constructor (p, x, y, radius, velocity, direction, name, image, degree, particles) {
         
         this.p = p
         this.x = x
@@ -16,9 +16,9 @@ class Ball {
         this.yOffset = 0
         this.name = name
         this.image = image
-        this.degree = 0
+        this.degree = degree
         this.degreeSpeed = 0
-        this.particles = []
+        this.particles = particles
         this.build()
 
         // this.color
@@ -28,7 +28,7 @@ class Ball {
     }
 
     isMouseOn() {
-        if( ((this.p.mouseX - this.x) ** 2 + (this.p.mouseY - this.y) ** 2) > this.radius**2) return false
+        if( ((this.p.mouseX - this.x) ** 2 + (this.p.mouseY - this.y) ** 2) > this.radius**2) return false;
         else {
             return true
         }
@@ -36,6 +36,7 @@ class Ball {
 
     move() {
 
+    
         var dist_x = Math.cos(this.direction) * this.velocity 
         var dist_y = Math.sin(this.direction) * this.velocity
         
@@ -84,13 +85,52 @@ class Ball {
             }
         }
 
-        this.p.image(this.image, 0 - 50, 0 - 50, 100, 100)
+        this.p.image(this.image, -this.radius * 0.75, -this.radius * 0.75 , this.radius * 1.5, this.radius * 1.5)
+
         this.p.strokeWeight(1);
         this.p.stroke(180, 180, 180);
         this.p.fill(180, 180, 180);
         this.p.textSize(20);
 
         this.p.text(this.name, 0 - 20, 0 + 100)
+        this.p.pop()
+
+        this.move()
+    }
+
+    new_draw() {
+
+        for(const particle of this.particles){
+            // particle.draw()
+        }
+
+        this.p.push()
+        this.p.translate(this.x, this.y);
+        this.p.rotate(Math.PI * this.degree)
+            
+        this.p.fill(0, 193, 255);
+        this.p.noStroke()
+        this.p.strokeWeight(3);
+        
+        if(this.isMouseOn()){
+            if(!this.locked){
+                this.p.fill('red');
+                this.p.stroke(255, 255, 255);
+            }
+            else{
+                this.p.fill('black');
+                this.p.stroke('white');
+            }
+        }
+
+        this.p.image(this.image, -this.radius * 0.75, -this.radius * 0.75 , this.radius * 1.5, this.radius * 1.5)
+        
+        this.p.strokeWeight(1);
+        this.p.stroke(255, 255, 255);
+        this.p.fill(255, 255, 255);
+        this.p.textSize(this.radius * 0.25);
+
+        this.p.text(this.name, 0 - this.radius * 0.25, 0 + this.radius * 1.25)
         this.p.pop()
 
         this.move()
@@ -203,7 +243,9 @@ class BallContainer {
                     Math.random() * 10 + 5,
                     Math.random() * 2 * Math.PI,
                     this.names[i],
-                    this.images[i]
+                    this.images[i],
+                    0,
+                    []
                 )
             )
         }
@@ -289,7 +331,8 @@ class BallContainer {
 
     draw() {
         for(const ball of this.balls) {
-            ball.draw()
+            // if(!this.clicked)
+                ball.draw()
         }
     }
 
@@ -313,10 +356,10 @@ class BallContainer {
     }
 
     outClicked(){
-        if(this.p.mouseX < 0.1 * this.p.windowWidth || 
-            this.p.mouseX > 0.9 * this.p.windowWidth || 
-            this.p.mouseY < 0.1 * this.p.windowHeight || 
-            this.p.mouseY > 0.9 * this.p.windowHeight )
+        if(this.p.mouseX > 0.8 * this.p.windowWidth && 
+            this.p.mouseX <= 0.9 * this.p.windowWidth && 
+            this.p.mouseY > 0.1 * this.p.windowHeight && 
+            this.p.mouseY < 0.2 * this.p.windowHeight )
             return true
     }
 
@@ -327,12 +370,6 @@ class BallContainer {
                 selected_ball = ball.mouseClicked()            
         }
         return selected_ball
-        // if(selected_ball == false)
-        //     return false
-        // else{
-        //     return true
-        // }
-        // this.clicked = true
     }
 }
 
