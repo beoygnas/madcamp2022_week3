@@ -73,7 +73,6 @@ class Ball {
         this.p.noStroke()
         this.p.strokeWeight(3);
         
-        
         if(this.isMouseOn()){
             if(!this.locked){
                 this.p.fill('red');
@@ -85,12 +84,7 @@ class Ball {
             }
         }
 
-        // this.p.circle(this.x, this.y, this.radius*2)
-        // this.p.text(this.name, this.x - 15, this.y - 50)
-        // this.p.image(this.image, this.x - 50, this.y - 50, 100, 100)
-   
         this.p.image(this.image, 0 - 50, 0 - 50, 100, 100)
-        
         this.p.strokeWeight(1);
         this.p.stroke(180, 180, 180);
         this.p.fill(180, 180, 180);
@@ -131,8 +125,8 @@ class Ball {
     }
 
     mouseDragged(){
-        
         if(this.locked){
+
             var tmp_x = this.x
             var tmp_y = this.y
 
@@ -144,6 +138,11 @@ class Ball {
                 particle.y += this.y - tmp_y
             }
         }
+    }
+
+    mouseClicked(){
+        if(this.isMouseOn()) return this
+        else return false
     }
 
     build(){
@@ -180,12 +179,14 @@ class Particle {
 
 
 class BallContainer {
-    constructor(p, num, names, images) {
+    constructor(p, num, names, images, type) {
         this.p = p
         this.num = num
         this.balls = []
         this.names = names
         this.images = images
+        this.type = type // 0은 클릭모드, 1은 드래그모드
+        this.clicked = false
         this.buildBalls()
     }
 
@@ -194,10 +195,10 @@ class BallContainer {
             this.balls.push(
                 new Ball(
                     this.p,
-                    // this.p.windowWidth/2,
-                    // this.p.windowHeight/2,
-                    Math.random() * this.p.windowWidth,
-                    Math.random() * this.p.windowHeight,
+                    this.p.windowWidth/2,
+                    this.p.windowHeight/2,
+                    // Math.random() * this.p.windowWidth,
+                    // Math.random() * this.p.windowHeight,
                     BALL_RADIUS,
                     Math.random() * 10 + 5,
                     Math.random() * 2 * Math.PI,
@@ -280,8 +281,8 @@ class BallContainer {
 
     isMouseOn() {
         for(const ball of this.balls) {
-            if(ball.isMouseOn()) 
-                return ball ;
+                if(ball.isMouseOn())  
+                    return ball ;
         }
         return null
     }
@@ -294,7 +295,8 @@ class BallContainer {
 
     mousePressed(){
         for(const ball of this.balls) {
-            ball.mousePressed()
+            if(!this.clicked)
+                ball.mousePressed()
         }
     }
     
@@ -308,6 +310,29 @@ class BallContainer {
         for(const ball of this.balls) {
             ball.mouseDragged()
         }
+    }
+
+    outClicked(){
+        if(this.p.mouseX < 0.1 * this.p.windowWidth || 
+            this.p.mouseX > 0.9 * this.p.windowWidth || 
+            this.p.mouseY < 0.1 * this.p.windowHeight || 
+            this.p.mouseY > 0.9 * this.p.windowHeight )
+            return true
+    }
+
+    mouseClicked(){
+        var selected_ball = false;
+        for(const ball of this.balls) {
+            if(selected_ball == false)    
+                selected_ball = ball.mouseClicked()            
+        }
+        return selected_ball
+        // if(selected_ball == false)
+        //     return false
+        // else{
+        //     return true
+        // }
+        // this.clicked = true
     }
 }
 
