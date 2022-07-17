@@ -7,6 +7,7 @@ import { TYPE_DRAG } from "./Constant";
 import { TYPE_CLICK } from "./Constant";
 import { hexToRGB } from "./Constant";
 import { Center } from "@react-three/drei";
+import { GO_BACK, GO_PROJECT, STAY} from "./Constant"; 
 
 class Ball {
     constructor (p, x, y, radius, velocity, direction, degree, degreeSpeed, particles, student) {
@@ -453,10 +454,7 @@ class BallDetail {
             var comment = Object.assign([], this.selected_ball.comment)
             
             let i = Math.trunc(( Math.trunc(comment.length / 15) ) / 2) * 0.3
-            console.log(comment.length)
-            console.log(i)
-
-
+        
             while(comment.length > 16){
 
                 this.p.text(
@@ -479,9 +477,25 @@ class BallDetail {
 
     mouseClicked(){
         
-        if(this.p.mouseX)
-        else if()
-
+        if(
+            (this.p.mouseX - this.selected_ball.x) ** 2 + 
+            (this.p.mouseY - this.selected_ball.y) ** 2 < 
+            this.selected_ball.radius ** 2)
+            {
+                return GO_PROJECT
+            }
+        else if(
+            this.p.mouseX >= this.p.windowWidth * 0.45 &&
+            this.p.mouseX <= this.p.windowWidth * 0.45 + this.p.windowHeight * 0.1 &&
+            this.p.mouseY >= this.p.windowHeight * 0.9 &&
+            this.p.mouseY <= this.p.windowHeight
+        ){
+            
+            return GO_BACK
+        }
+        else{
+            return STAY
+        }
     }
 }
 

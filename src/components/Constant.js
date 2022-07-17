@@ -2,6 +2,9 @@ const BALL_RADIUS = 80
 const BALL_RADIUS_OFFSET = BALL_RADIUS * 0.2
 const TYPE_DRAG = 0
 const TYPE_CLICK = 1
+const GO_BACK = 0
+const GO_PROJECT = 1
+const STAY = 2
 
 
 
@@ -91,5 +94,5 @@ function hexToRGB(code) {
     }
 }
 
-export { BALL_RADIUS, BALL_RADIUS_OFFSET, Data, hexToRGB , Student, TYPE_CLICK, TYPE_DRAG}
+export { BALL_RADIUS, BALL_RADIUS_OFFSET, Data, hexToRGB , Student, TYPE_CLICK, TYPE_DRAG, GO_BACK, GO_PROJECT, STAY }
 

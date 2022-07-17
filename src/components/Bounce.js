@@ -9,6 +9,7 @@ import { Student } from "./Constant";
 import { TYPE_DRAG } from "./Constant";
 import { TYPE_CLICK } from "./Constant";
 import { BallDetail } from "./Ball";
+import { GO_BACK, GO_PROJECT, STAY} from "./Constant"; 
 
 const Bounce = () => {
     let numBalls = 20
@@ -104,14 +105,22 @@ const Bounce = () => {
                     selected_ball = tmp
                 }
             }
-            else {
-                if(ballContainer.outClicked()){
-                    ballContainer.clicked = false
-                    ballDetail = null   
-                }
-            }
             // console.log(selected_ball)
         }
+        else if(ballDetail != null){
+            var next_action = ballDetail.mouseClicked()
+            if(next_action == GO_BACK){
+                console.log("나가기")
+                ballContainer.clicked = false
+                ballDetail = null   
+            }
+            else if(next_action == GO_PROJECT){
+                console.log("원클릭")
+            }
+            else
+                console.log("가만히")
+        }
+
     }
 
 
