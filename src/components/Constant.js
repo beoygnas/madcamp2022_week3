@@ -1,6 +1,22 @@
 const BALL_RADIUS = 80
 const BALL_RADIUS_OFFSET = BALL_RADIUS * 0.2
+const TYPE_DRAG = 0
+const TYPE_CLICK = 1
 
+
+
+class Student {
+    constructor( name, image, school, hakbeon, hobby, comment, color)
+    {
+        this.name = name  
+        this.image = image
+        this.school = school
+        this.hakbeon = hakbeon 
+        this.hobby = hobby
+        this.comment = comment
+        this.color = color
+    }
+}
 
 const Data = {
     name : [
@@ -42,7 +58,7 @@ const Data = {
         "안녕하세요! 함께 즐거운 시간 보내면서 많이 성장하고 싶습니다. 잘 부탁드립니다.",
         "안녕하세요. 즐거운 캠프기간이 되었으면 좋겠습니다!",
         "캠프에서 어떤 경험을 할지 설레는 마음으로 기다리고 있습니다:) 함께 성장하는 시간으로 행복하게 채우면 좋겠습니다! 잘부탁드려요~",
-        "안녕하세요!!!!!! 최가희입니다!!\n한달동안 잘 부탁드립니다!\n4분반 한달동안 화이팅넘치게 재밌고 빡세게 달려봐요~~~~",
+        "안녕하세요!!!!!! 최가희입니다!! 한달동안 잘 부탁드립니다! 4분반 한달동안 화이팅넘치게 재밌고 빡세게 달려봐요~~~~",
         "Hello World! 모두 반갑습니다 :)",
         "기대 많이 되네요:냠냠: 즐겁게 열심히 해봐요 화이팅!",
         "한달 동안 동고동락하며 뿌듯한 기억, 즐거운 기억 함께 얻어갔으면 좋겠습니다!! 모두 반갑습니다~~",
@@ -75,4 +91,5 @@ function hexToRGB(code) {
     }
 }
 
-export { BALL_RADIUS, BALL_RADIUS_OFFSET, Data, hexToRGB }
+export { BALL_RADIUS, BALL_RADIUS_OFFSET, Data, hexToRGB , Student, TYPE_CLICK, TYPE_DRAG}
+

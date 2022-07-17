@@ -1,79 +1,92 @@
 import { getRootState } from "@react-three/fiber"
 import { BALL_RADIUS } from "./Constant"
 import { Bubble } from "./Bubble"
+import { Data } from "./Constant";
+import { Student } from "./Constant";
+import { TYPE_DRAG } from "./Constant";
+import { TYPE_CLICK } from "./Constant";
+import { hexToRGB } from "./Constant";
+import { Center } from "@react-three/drei";
 
 class Ball {
-    constructor (p, x, y, radius, velocity, direction, name, image, degree, particles) {
+    constructor (p, x, y, radius, velocity, direction, degree, degreeSpeed, particles, student) {
         
         this.p = p
+        // 도형 속성
         this.x = x
         this.y = y
         this.radius = radius
         this.velocity = velocity
         this.direction = direction
+        this.degree = degree
+        this.degreeSpeed = degreeSpeed
+        this.particles = particles
+        
+        this.student = student
+        //student 정보
+        this.name = student.name
+        this.image = student.image
+        this.school = student.school
+        this.hakbeon = student.hakbeon
+        this.hobby = student.hobby
+        this.comment = student.comment
+        this.color = student.color
+
+        // drag 용 
         this.locked = false
         this.xOffset = 0
         this.yOffset = 0
-        this.name = name
-        this.image = image
-        this.degree = degree
-        this.degreeSpeed = 0
-        this.particles = particles
+        this.selected = 0
         this.build()
-
-        // this.color
-        // this.img = p.loadImage('assets/sky.jpg')
-        // console.log(this.img)
-        // this.text
     }
 
     isMouseOn() {
-        if( ((this.p.mouseX - this.x) ** 2 + (this.p.mouseY - this.y) ** 2) > this.radius**2) return false;
+        if( ((this.p.mouseX - this.x) ** 2 + (this.p.mouseY - this.y) ** 2) > this.radius**2) 
+            return false;
         else {
             return true
         }
     }
 
     move() {
-
     
-        var dist_x = Math.cos(this.direction) * this.velocity 
-        var dist_y = Math.sin(this.direction) * this.velocity
+        var dist_x = Math.cos(this.direction) * this.velocity * 0.5 
+        var dist_y = Math.sin(this.direction) * this.velocity * 0.5
         
         if(this.x + dist_x * 1 < 0 && Math.cos(this.direction) < 0)
             this.x -= dist_x * 2;
-
         if(this.y + dist_y * 1 < 0 && Math.sin(this.direction) < 0)
             this.y -= dist_y * 2; 
-
         if(this.x + dist_x * 1 > this.p.windowWidth && Math.cos(this.direction) > 0)
             this.x -= dist_x * 2;
-
         if(this.y + dist_y * 1 > this.p.windowHeight && Math.sin(this.direction) < 0)
             this.y -= dist_y * 2 ;
 
-        this.x += dist_x * 1
-        this.y += dist_y * 1
+        this.x += dist_x
+        this.y += dist_y
         this.degree += this.degreeSpeed
 
         for(const particle of this.particles){
-            particle.move(dist_x, dist_y)
+            particle.move(dist_x, dist_y )
         }
     }
 
     draw() {
 
-        for(const particle of this.particles)
-            particle.draw()
+        // for(const particle of this.particles)
+        //     particle.draw(this.color)
 
         this.p.push()
         this.p.translate(this.x, this.y);
         this.p.rotate(Math.PI * this.degree)
         
-        this.p.fill(0, 193, 255);
+        const RGB = hexToRGB(this.color)
         this.p.noStroke()
-        this.p.strokeWeight(3);
+        this.p.fill(RGB.r, RGB.g, RGB.b)
+        this.p.circle(0, 0, this.radius * 2)
         
+        
+
         if(this.isMouseOn()){
             if(!this.locked){
                 this.p.fill('red');
@@ -85,58 +98,27 @@ class Ball {
             }
         }
 
+        //image draw
         this.p.image(this.image, -this.radius * 0.75, -this.radius * 0.75 , this.radius * 1.5, this.radius * 1.5)
 
+        //text draw
         this.p.strokeWeight(1);
-        this.p.stroke(180, 180, 180);
-        this.p.fill(180, 180, 180);
-        this.p.textSize(20);
-
-        this.p.text(this.name, 0 - 20, 0 + 100)
-        this.p.pop()
-
-        this.move()
-    }
-
-    new_draw() {
-
-        for(const particle of this.particles){
-            // particle.draw()
+        if(this.selected){
+            this.p.stroke(255, 255, 255);
+            this.p.fill(255, 255, 255);
+            this.p.textSize(this.radius * 0.25);
         }
-
-        this.p.push()
-        this.p.translate(this.x, this.y);
-        this.p.rotate(Math.PI * this.degree)
-            
-        this.p.fill(0, 193, 255);
-        this.p.noStroke()
-        this.p.strokeWeight(3);
+        else{
+            this.p.stroke(180, 180, 180);
+            this.p.fill(180, 180, 180);
+            this.p.textSize(20);
+        }        
+        this.p.text(this.name, 0 - this.radius * 0.3, 0 + this.radius * 1.25)
         
-        if(this.isMouseOn()){
-            if(!this.locked){
-                this.p.fill('red');
-                this.p.stroke(255, 255, 255);
-            }
-            else{
-                this.p.fill('black');
-                this.p.stroke('white');
-            }
-        }
-
-        this.p.image(this.image, -this.radius * 0.75, -this.radius * 0.75 , this.radius * 1.5, this.radius * 1.5)
-        
-        this.p.strokeWeight(1);
-        this.p.stroke(255, 255, 255);
-        this.p.fill(255, 255, 255);
-        this.p.textSize(this.radius * 0.25);
-
-        this.p.text(this.name, 0 - this.radius * 0.25, 0 + this.radius * 1.25)
         this.p.pop()
-
         this.move()
     }
     
-
     mousePressed(){
 
         if(this.isMouseOn()){
@@ -186,7 +168,7 @@ class Ball {
     }
 
     build(){
-        for(let i=0; i<500; i++) {
+        for(let i=0; i<100; i++) {
             let r = Math.random() * this.radius * 0.6
             let theta = Math.random() * Math.PI * 2
             this.particles.push(
@@ -205,9 +187,10 @@ class Particle {
         this.radius = radius
     }
 
-    draw () {
+    draw (color) {
+        const RGB = hexToRGB(color)
         this.p.noStroke()
-        this.p.fill(0, 193, 255)
+        this.p.fill(RGB.r, RGB.g, RGB.b)
         this.p.circle(this.x, this.y, this.radius * 2)
     }
 
@@ -219,12 +202,11 @@ class Particle {
 
 
 class BallContainer {
-    constructor(p, num, names, images, type) {
+    constructor(p, num, students, type) {
         this.p = p
         this.num = num
         this.balls = []
-        this.names = names
-        this.images = images
+        this.students = students
         this.type = type // 0은 클릭모드, 1은 드래그모드
         this.clicked = false
         this.buildBalls()
@@ -237,15 +219,13 @@ class BallContainer {
                     this.p,
                     this.p.windowWidth/2,
                     this.p.windowHeight/2,
-                    // Math.random() * this.p.windowWidth,
-                    // Math.random() * this.p.windowHeight,
                     BALL_RADIUS,
                     Math.random() * 10 + 5,
                     Math.random() * 2 * Math.PI,
-                    this.names[i],
-                    this.images[i],
-                    0,
-                    []
+                    Math.random() * 1, //degree
+                    Math.random() * 0.01, //degreeSpeed
+                    [],
+                    this.students[i]
                 )
             )
         }
@@ -300,8 +280,8 @@ class BallContainer {
                         var v2_v = v2_x * Math.sin(angle)
                             - v2_y * Math.cos(angle)
 
-                        var nv1h = (v2_h - v1_h) * (1+ 0.8)/2 + v1_h
-                        var nv2h = (v1_h - v2_h) * (1+ 0.8)/2 + v2_h
+                        var nv1h = (v2_h - v1_h) * (1+ 0.9)/2 + v1_h
+                        var nv2h = (v1_h - v2_h) * (1+ 0.9)/2 + v2_h
 
                         var new_v1_x = nv1h * Math.cos(angle) + v1_v * Math.sin(angle);
                         var new_v1_y = nv1h * Math.sin(angle) - v1_v * Math.cos(angle);
@@ -373,4 +353,136 @@ class BallContainer {
     }
 }
 
-export { Ball, BallContainer }
+class BallDetail {
+    constructor(p, selected_ball){
+        this.p = p
+        this.selected_ball = new Ball(
+                                selected_ball.p, 
+                                selected_ball.x, 
+                                selected_ball.y,
+                                selected_ball.radius, 
+                                30,
+                                Math.atan2(0.5 * p.windowHeight - selected_ball.y, 0.5 * p.windowWidth - selected_ball.x),
+                                selected_ball.degree, 
+                                selected_ball.degreeSpeed * 5,
+                                [],
+                                selected_ball.student
+                            )
+        this.selected_ball.selected = 1
+        this.ball_expanded = 0
+        this.radius = 300
+        this.radius_expanded = 0
+    }
+
+    draw(){
+        var flag = false
+        if(
+            !(this.selected_ball.x < 0.5 * this.p.windowWidth - this.selected_ball.radius * 0.125 ||
+            this.selected_ball.x > 0.5 * this.p.windowWidth + this.selected_ball.radius  * 0.125 ||
+            this.selected_ball.y < 0.5 * this.p.windowHeight - this.selected_ball.radius * 0.125 ||
+            this.selected_ball.y > 0.5 * this.p.windowHeight + this.selected_ball.radius * 0.125) 
+        ){
+            
+            flag = true
+
+            this.selected_ball.x = 0.5 * this.p.windowWidth
+            this.selected_ball.y = 0.5 * this.p.windowHeight
+            this.selected_ball.velocity = 0
+            this.selected_ball.degreeSpeed = 0
+            
+            if(this.selected_ball.degree == 0){
+                
+            }
+            else if(this.selected_ball.degree % 2 <= 1){
+                    this.selected_ball.degree -= 0.02
+                if(this.selected_ball.degree % 1 <= 0.02)
+                    this.selected_ball.degree = 0
+                    this.selected_ball.degreeSpeed = 0
+            }
+            else {
+                this.selected_ball.degree += 0.02
+                if(this.selected_ball.degree % 1 >= 0.98){
+                    this.selected_ball.degree = 0
+                    this.selected_ball.degreeSpeed = 0
+                }
+            }
+        }
+
+
+        if(flag  && this.selected_ball.radius <= 200){
+            this.selected_ball.radius *= 1.05
+        }
+        else {
+            if(this.selected_ball.radius > 200){
+                this.ball_expanded = true
+            }    
+        }
+
+        if(this.ball_expanded) {
+            const RGB = hexToRGB(this.selected_ball.color)
+            this.p.noStroke()
+            this.p.fill(RGB.r, RGB.g, RGB.b)
+
+            this.p.circle(this.selected_ball.x, this.selected_ball.y, this.radius)
+            if(this.radius <= this.p.windowWidth * 1.5)
+                this.radius *= 1.05;
+            else this.radius_expanded = true
+        }
+
+        if(this.radius_expanded){
+
+            this.p.strokeWeight(1);
+            this.p.stroke(255, 255, 255);
+            this.p.fill(255, 255, 255);
+            this.p.textSize(this.selected_ball.radius * 0.35);
+
+            this.p.text(
+                `${this.selected_ball.school} ${this.selected_ball.hakbeon}학번`,
+                this.selected_ball.x - this.selected_ball.radius * 3, 
+                this.selected_ball.y - this.selected_ball.radius 
+            )
+            
+            this.p.text(
+                this.selected_ball.hobby,
+                this.selected_ball.x - this.selected_ball.radius * 3, 
+                this.selected_ball.y + this.selected_ball.radius 
+            )
+
+            this.p.textSize(this.selected_ball.radius * 0.2);
+            
+            var comment = Object.assign([], this.selected_ball.comment)
+            
+            let i = Math.trunc(( Math.trunc(comment.length / 15) ) / 2) * 0.3
+            console.log(comment.length)
+            console.log(i)
+
+
+            while(comment.length > 16){
+
+                this.p.text(
+                    comment.slice(0, 16).join(""),
+                    this.selected_ball.x + this.selected_ball.radius, 
+                    this.selected_ball.y - this.selected_ball.radius * (i)
+                )
+                comment = comment.slice(16)
+                i -= 0.3;
+            }
+
+            this.p.text(
+                comment.join(""),
+                this.selected_ball.x + this.selected_ball.radius, 
+                this.selected_ball.y - this.selected_ball.radius * (i)
+            )
+        }
+        this.selected_ball.draw()
+    }
+
+    mouseClicked(){
+        
+        if(this.p.mouseX)
+        else if()
+
+    }
+}
+
+export { Ball, BallContainer, BallDetail }

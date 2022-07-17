@@ -5,32 +5,48 @@ import { BallContainer } from "./Ball";
 import { Particle } from "./Bubble";
 import { Circle } from "@react-three/drei";
 import { Data } from "./Constant";
+import { Student } from "./Constant";
+import { TYPE_DRAG } from "./Constant";
+import { TYPE_CLICK } from "./Constant";
+import { BallDetail } from "./Ball";
 
 const Bounce = () => {
-    let numBalls = 5
+    let numBalls = 20
     let ballContainer
     let profiles = Array()
+    var images = []
+    var students = []
     var extraCanvas
     var selected_ball
-    var new_ball = null
+    var ballDetail = null
 
     const preload = (p, canvasParentRef) => {
 
         for(let i=0; i < numBalls ;i++){
-            Data.images[i] = p.loadImage(`assets/${Data.name[i]}.png`)
+            images[i] = p.loadImage(`assets/${Data.name[i]}.png`)
+            console.log(`assets/${Data.name[i]}.png`)
         }
     }
 
     const setup = (p, canvasParentRef) => {
 
-        var names = ['김찬우', '김상엽', '조예진', '최가희', '강지훈']
-        var images = [profiles[0], profiles[0], profiles[0], profiles[0], profiles[0]]
-
-        console.log("setup")
+        for(let i = 0 ; i < numBalls ; i++){
+            var student = new Student(
+                                Data.name[i], 
+                                images[i], 
+                                Data.school[i], 
+                                Data.hakbeon[i], 
+                                Data.hobby[i], 
+                                Data.comment[i], 
+                                Data.color[i]
+                                )
+            students.push(student)
+        }
         
-        ballContainer = new BallContainer(p, numBalls, names, images, 1)
-        p.createCanvas(p.windowWidth, p.windowHeight);
+        ballContainer = new BallContainer(p, numBalls, students, TYPE_CLICK)
 
+
+        p.createCanvas(p.windowWidth, p.windowHeight);
         extraCanvas = p.createGraphics( 0.8 * p.windowWidth, 0.8 * p.windowHeight).parent(canvasParentRef)
         extraCanvas.background(0, 0, 0, 160)
         
@@ -45,65 +61,20 @@ const Bounce = () => {
         ballContainer.draw(p)
 
         if(ballContainer.clicked == true){
-            var flag = 0
-            p.image(extraCanvas, 0.1 * p.windowWidth, 0.1 * p.windowHeight)   
-            p.rect(0.8 * p.windowWidth, 
+            
+            p.fill("0, 0, 0")
+            
+            if(ballDetail == null)
+                ballDetail = new BallDetail(p, selected_ball)
+            
+            ballDetail.draw()
+            p.rect(
+                0.45 * p.windowWidth, 
+                0.9 * p.windowHeight, 
                 0.1 * p.windowHeight, 
-                0.1 * p.windowWidth, 
-                0.1 * p.windowHeight )
-            
-            if(new_ball == null){
-                var new_particles = Object.assign([], selected_ball.Particle)
+                0.1 * p.windowHeight
+            )
 
-                new_ball = new Ball(selected_ball.p, selected_ball.x, selected_ball.y,
-                selected_ball.radius, 0, 0, selected_ball.name, selected_ball.image, selected_ball.degree, new_particles)
-                new_ball.direction = Math.atan2(0.5 * p.windowHeight - new_ball.y, 0.5 * p.windowWidth - new_ball.x)
-                new_ball.velocity = 5
-                new_ball.degreeSpeed = 0.01
-            }
-
-            console.log(0.5 * p.windowWidth, 0.5 * p.windowHeight)
-            
-            if(
-                new_ball.x < 0.5 * p.windowWidth - new_ball.radius * 0.125 ||
-                new_ball.x > 0.5 * p.windowWidth + new_ball.radius  * 0.125 ||
-                new_ball.y < 0.5 * p.windowHeight - new_ball.radius * 0.125 ||
-                new_ball.y > 0.5 * p.windowHeight + new_ball.radius * 0.125 
-            ){
-                new_ball.move()
-            }
-            else{
-
-                flag = true
-                new_ball.x = 0.5 * p.windowWidth
-                new_ball.y = 0.5 * p.windowHeight
-                new_ball.velocity = 0
-                new_ball.degreeSpeed = 0
-                
-                console.log(new_ball.degree)
-                
-                if(new_ball.degree == 0){
-                    
-                }
-                else if(new_ball.degree % 2 <= 1){
-                    new_ball.degree -= 0.02
-                    if(new_ball.degree % 1 <= 0.02)
-                        new_ball.degree = 0
-                        new_ball.degreeSpeed = 0
-                }
-                else {
-                    new_ball.degree += 0.02
-                    if(new_ball.degree % 1 >= 0.98){
-                        new_ball.degree = 0
-                        new_ball.degreeSpeed = 0
-                    }
-                }
-            }
-
-            if(flag  && new_ball.radius <= 200)
-                new_ball.radius *= 1.05
-
-            new_ball.new_draw()
         }
     }
 
@@ -124,7 +95,7 @@ const Bounce = () => {
 
     const mouseClicked = (p) => {
 
-        if(ballContainer.type == 1){
+        if(ballContainer.type == 1 && ballDetail == null){
             
             if(!ballContainer.clicked){
                 var tmp = ballContainer.mouseClicked(p)
@@ -136,10 +107,9 @@ const Bounce = () => {
             else {
                 if(ballContainer.outClicked()){
                     ballContainer.clicked = false
-                    new_ball = null   
+                    ballDetail = null   
                 }
             }
-            console.log(ballContainer.clicked)
             // console.log(selected_ball)
         }
     }
@@ -153,5 +123,6 @@ const Bounce = () => {
         </div>
     );
 };
+
 
 export default Bounce;

@@ -3,7 +3,6 @@ import Bounce from "../components/Bounce";
 
 function Member() {
     return <>
-        <Header>hi</Header>
         <Bounce/>
     </>
 }
