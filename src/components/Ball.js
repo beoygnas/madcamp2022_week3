@@ -179,7 +179,6 @@ class Ball {
     }
 }
 
-
 class Particle {
     constructor(p, x, y, radius) {
         this.p = p
@@ -200,7 +199,6 @@ class Particle {
         this.y += dist_y
     }
 }
-
 
 class BallContainer {
     constructor(p, num, students, type) {
@@ -370,21 +368,29 @@ class BallDetail {
                                 selected_ball.student
                             )
         this.selected_ball.selected = 1
-        this.ball_expanded = 0
+        this.ball_centered = false
+        this.ball_expanded = false
         this.radius = 300
         this.radius_expanded = 0
+        this.projectMode = false
+        this.pressed_y = 0
     }
 
     draw(){
-        var flag = false
+        
+        if(this.projectMode){
+            if(this.selected_ball.y >= -250)
+            this.selected_ball.y -= 20 
+        }
         if(
             !(this.selected_ball.x < 0.5 * this.p.windowWidth - this.selected_ball.radius * 0.125 ||
             this.selected_ball.x > 0.5 * this.p.windowWidth + this.selected_ball.radius  * 0.125 ||
             this.selected_ball.y < 0.5 * this.p.windowHeight - this.selected_ball.radius * 0.125 ||
             this.selected_ball.y > 0.5 * this.p.windowHeight + this.selected_ball.radius * 0.125) 
+            && !this.radius_expanded
         ){
             
-            flag = true
+            this.ball_centered = true
 
             this.selected_ball.x = 0.5 * this.p.windowWidth
             this.selected_ball.y = 0.5 * this.p.windowHeight
@@ -409,8 +415,7 @@ class BallDetail {
             }
         }
 
-
-        if(flag  && this.selected_ball.radius <= 200){
+        if(this.ball_centered  && this.selected_ball.radius <= 200){
             this.selected_ball.radius *= 1.05
         }
         else {
@@ -419,17 +424,20 @@ class BallDetail {
             }    
         }
 
+        // 원커지기
         if(this.ball_expanded) {
             const RGB = hexToRGB(this.selected_ball.color)
             this.p.noStroke()
             this.p.fill(RGB.r, RGB.g, RGB.b)
 
             this.p.circle(this.selected_ball.x, this.selected_ball.y, this.radius)
-            if(this.radius <= this.p.windowWidth * 1.5)
-                this.radius *= 1.05;
-            else this.radius_expanded = true
+            if(this.radius <= this.p.windowWidth * 2)
+                this.radius = this.radius ** 1.013;
+            else if(this.selected_ball.degree == 0) 
+                this.radius_expanded = true
         }
 
+        // 텍스트 띄우기
         if(this.radius_expanded){
 
             this.p.strokeWeight(1);
@@ -473,6 +481,7 @@ class BallDetail {
             )
         }
         this.selected_ball.draw()
+
     }
 
     mouseClicked(){
@@ -497,6 +506,33 @@ class BallDetail {
             return STAY
         }
     }
+
+    mousePressed(){
+        this.pressed_y = this.p.mouseY;
+    }
+
+    mouseDragged(){
+        console.log(this.selected_ball.y)
+        if(
+            (this.selected_ball.y + (this.p.mouseY - this.pressed_y) <= this.p.windowHeight * 0.5 )&&
+            (this.selected_ball.y + (this.p.mouseY - this.pressed_y) >= 
+            -this.p.windowHeight * 0.3)
+        ){
+            this.selected_ball.y += (this.p.mouseY - this.pressed_y)
+            this.pressed_y = this.p.mouseY
+        }
+        console.log(this.selected_ball.y)
+        console.log(-this.p.windowHeight * 0.25)
+    }
+
+    mouseReleased(){
+
+    }
+
+}
+
+class ProjectContainer {
+
 }
 
 export { Ball, BallContainer, BallDetail }

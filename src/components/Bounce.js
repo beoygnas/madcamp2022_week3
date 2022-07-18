@@ -24,8 +24,8 @@ const Bounce = () => {
     const preload = (p, canvasParentRef) => {
 
         for(let i=0; i < numBalls ;i++){
-            images[i] = p.loadImage(`assets/${Data.name[i]}.png`)
-            console.log(`assets/${Data.name[i]}.png`)
+            images[i] = p.loadImage(`assets/profile/${Data.name[i]}.png`)
+            
         }
     }
 
@@ -64,9 +64,9 @@ const Bounce = () => {
         if(ballContainer.clicked == true){
             
             p.fill("0, 0, 0")
-            
             if(ballDetail == null)
                 ballDetail = new BallDetail(p, selected_ball)
+            
             
             ballDetail.draw()
             p.rect(
@@ -75,13 +75,20 @@ const Bounce = () => {
                 0.1 * p.windowHeight, 
                 0.1 * p.windowHeight
             )
-
         }
+
+
     }
 
     const mousePressed = (p) => {
+        console.log("he")
         if(ballContainer.type == 0)
             ballContainer.mousePressed(p)
+        
+        if(ballDetail != null){
+            // console.log("hi")
+            ballDetail.mousePressed(p)
+        }
     }
 
     const mouseReleased = (p) => {
@@ -92,12 +99,15 @@ const Bounce = () => {
     const mouseDragged = (p) => {
         if(ballContainer.type == 0)
             ballContainer.mouseDragged(p)
+        if(ballDetail != null){
+            // console.log("hi")
+            ballDetail.mouseDragged(p)
+        }
     }
 
     const mouseClicked = (p) => {
 
         if(ballContainer.type == 1 && ballDetail == null){
-            
             if(!ballContainer.clicked){
                 var tmp = ballContainer.mouseClicked(p)
                 if(tmp != false){
@@ -105,22 +115,18 @@ const Bounce = () => {
                     selected_ball = tmp
                 }
             }
-            // console.log(selected_ball)
         }
         else if(ballDetail != null){
             var next_action = ballDetail.mouseClicked()
             if(next_action == GO_BACK){
-                console.log("나가기")
                 ballContainer.clicked = false
                 ballDetail = null   
             }
             else if(next_action == GO_PROJECT){
-                console.log("원클릭")
+                ballDetail.projectMode = true
             }
-            else
-                console.log("가만히")
+            else ;
         }
-
     }
 
 

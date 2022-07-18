@@ -21,6 +21,170 @@ class Student {
     }
 }
 
+const Project = [
+    {
+        week : 1,
+        id : 1, 
+        team : ["김상엽", "이상민"],
+        name : "덤벼라 인스타그램",
+        github : "https://github.com/beoygnas/week1",
+        img : [],
+        text : [
+            "인스타그램을 이길만한 연락처 앱을 만들어 봤습니다", 
+            "실제 휴대폰의 연락처/갤러리를 동기화하고, 캘린더 탭에서는 내부저장소에 일정을 저장합니다.",
+            ],
+    },
+    {   
+        week : 1,
+        id : 2, 
+        team : ["김재민", "정찬우3"],
+        name : "K-Xylophone",
+        github : "https://github.com/dev-jaemin/FirstFlow",
+        img : [],
+        text : [
+            "금주의 픽!",
+            "연락처/나만의 이미지 갤러리을 구현하고, 실로폰 연주 및 녹음할 수 있는 앱을 개발했습니다.", 
+            "수많은 기능이 있지만, 단 하나의 에러도 발생하지 않도록 많은 노력을 기울였습니다",
+            ],
+    },
+    {
+        week : 1,
+        id : 3,
+        team : ["김태훈", "박상빈"],
+        name : "Forcard",
+        github : "https://github.com/sbpark0611/project1",
+        img : [],
+        text : [
+            "연락처별 맞춤 포토카드를 만들 수 있는 안드로이드 기반 어플리케이션입니다!",
+            "실제 연락처와 갤러리 속 사진을 만든 포토카드는, 인스타 스토리 공유가 가능합니다."
+        ]
+    },
+    {
+        week : 1,
+        id : 4,
+        team : ["구민재", "김효정"],
+        name : "Office On",
+        github : "https://github.com/9mande/madcamp1",
+        img : [],
+        text : [
+            "금주의 픽!",
+            "Office라는 주제로 업무연락처, 명합집, to-do list, 오피스룩 추천 기능을 구현해보았습니다.",
+            "깔끔한 디자인, 다양한 라이브러리/API을 이용한 수많은 디테일을 만끽해보세요."
+        ]
+    },
+    {
+        week : 1,
+        id : 5,
+        team : ["김찬우", "장지원"],
+        name : "MADCAMP_1주차",
+        github : "https://github.com/DebbieIsFree/madCamp_week01",
+        img : [],
+        text : [
+            "연락처, 갤러리, 지도 기능을 가진 안드로이드 어플리케이션을 개발했습니다.",
+            "Naver Map API를 이용해 현재 위치와 지도 상의 새로운 지점을 구할 수 있습니다."
+        ]
+    },
+    {
+        week : 1,
+        id : 6,
+        team : ["이지현", "하현수"],
+        name : "마퍼앱",
+        github : "https://github.com/Jihyun03/madcamp_android",
+        img : [],
+        text : [
+            "나만의 앨범, 나만의 메모장을 커스텀할 수 있는 앱을 개발했습니다!",
+            "간단한 메모장 기능으로 개인용 기록장으로 사용할 수 있습니다."
+        ]
+    },
+    {
+        week : 1,
+        id : 7,
+        team : ["김가현", "남유성"],
+        name : "카이냠",
+        github : "https://github.com/zzxzzhyun/cs496_week1",
+        img : [],
+        text : [
+            "배고픈 친구들에게 카이스트 주변 맛집을 소개해줄 수 있는 애플리케이션을 제작해봤습니다.",
+            "Naver Map API를 이용해 먹고 싶은 맛집의 실제 위치를 지도 상에서 확인 할 수 있습니다."
+        ]
+    },
+    {
+        week : 1,
+        id : 8,
+        team : ["김사은", "황인준"],
+        name : "The Most Useful App",
+        github : "https://github.com/injoonH/madcamp-simple-app/tree/develop",
+        img : [],
+        text : [
+            "각 탭에 연락처 / 갤러리 / TodoList 를 담은 애플리케이션을 제작했습니다.",
+            "SQLite를 이용해, TodoList에서 간단한 텍스트와 일정에 대한 CRUD를 지원합니다."
+        ]
+    },
+    {
+        week : 1,
+        id : 9,
+        team : ["최가희", "한성익"],
+        name : "낙하산",
+        github : "https://github.com/seongikx/Madcamp01/",
+        img : [],
+        text : [
+            "연락처와 다이어리, 각종 게임을 즐길 수 있는 페이지로 구성한 안드로이드 앱을 개발했습니다.",
+            "앱 내부저장소에 저장되는 다이어리는 삭제되지 않고, 연락처를 통해 전화/문자를 할 수 있습니다"
+        ]
+    },
+    {
+        week : 1,
+        id : 10,
+        team : ["강지훈", "조예진"],
+        name : "GameBoy Beta",
+        github : "https://github.com/jakekang28/Project1",
+        img : [],
+        text : [
+            "기본적인 연락처/갤러리 탭 외에, 포켓몬 배틀 탭을 구성하여 게임보이 베타를 제작해보려 했습니다.",
+            "포켓몬 갤러리를 통해 포켓몬 영상을 볼 수 있고, 영어 단어장을 통해 급하게 화면전환을 할 수 있습니다."
+        ]
+    },
+    {
+        week : 2,
+        id : 1,
+        team : ["김가현", "김재민"],
+        name : "카이냠 (Ver.2)",
+        github : "https://github.com/zzxzzhyun/kaiyum",
+        img : [],
+        text : [
+            "카이스트 학생들이 실제로 사용할 수 있는, 맛집 어플을 제작을 목표로 개발한 앱입니다",
+            "매일매일의 교내식당 정보, 카이스트 근처의 맛집과 정보공유 커뮤니티 등의 기능을 제공합니다."
+        ]
+    },
+    {
+        week : 2,
+        id : 2,
+        team : ["김태훈", "김사은"],
+        name : "Gathering",
+        github : "https://github.com/twodf78/project2",
+        img : [],
+        text : [
+            "쉽고 빠르게, 모임을 만들고 모임에 가입할 수 있게 도와주는 앱을 제작해보았습니다.",
+            "매력지수라는 포인트를 통해, 모임원 평가 진행되며 칭호가 주어집니다."
+        ]
+    },
+    {
+        week : 2,
+        id : 3,
+        team : ["박상빈", "장지원"],
+        name : "Roots",
+        github : "https://github.com/sbpark0611/Roots",
+        img : [],
+        text : [
+            "다양한 음악을 들으며, 나만의 플레이 리스트를 저장해 관리 할 수 있는 안드로이드 기반 앱입니다.",
+            "랜덤 음악 추천으로 풍요로운 음악 감성을 채워보세요."
+        ]
+    },
+
+
+
+]
+
 const Data = {
     name : [
         "남유성", "김상엽", "장지원", "이상민", "정찬우", 
@@ -28,6 +192,23 @@ const Data = {
         "최가희", "황인준", "구민재", "김사은", "이지현",
         "김태훈", "강지훈", "조예진", "하현수", "한성익"
     ], 
+
+    project : [
+        [7, ], [1, ], [5, ], [1, ], [2, ],
+        [2, 1], [7, 1], [3, ], [5, ], [4, ],
+        [9, ], [8, ], [4, ], [8, ], [6, ],
+        [3, ], [10, ], [10, ], [6, ], [9, ]
+    ],
+
+    github : [
+        "",
+        "https://github.com/beoygnas",
+        "https://github.com/DebbieIsFree",
+        "https://github.com/alex6095",
+        "",
+
+
+    ],
 
     school  : [
         "GIST", "고려대", "부산대", "KAIST", "한양대",
@@ -80,6 +261,7 @@ const Data = {
         'FD83FF', '272052', '2400FF', 'D5FFCE', 'FF7A00',
         '00C1FF'
     ]
+    
 }
 
 function hexToRGB(code) {
