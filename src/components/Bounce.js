@@ -17,6 +17,7 @@ const Bounce = () => {
     let ballContainer
     let profiles = Array()
     var images = []
+    var container_images = []
     var students = []
     var extraCanvas
     var selected_ball
@@ -38,6 +39,10 @@ const Bounce = () => {
 
                 Projects[i].img.push(img)
             }
+        }
+        for(let i=0 ; i < 5 ; i++){
+            console.log(`assets/container_${i}}.png`)
+            container_images[i] = p.loadImage(`assets/container_${i}.png`)
         }
     }
 
@@ -63,7 +68,7 @@ const Bounce = () => {
             students.push(student)
         }
         
-        ballContainer = new BallContainer(p, numBalls, students, TYPE_CLICK)
+        ballContainer = new BallContainer(p, numBalls, students, TYPE_CLICK, container_images)
 
 
         p.createCanvas(p.windowWidth, p.windowHeight);

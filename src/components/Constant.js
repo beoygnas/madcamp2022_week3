@@ -340,10 +340,10 @@ const Data = {
     ],
 
     color : [
-        'FFA9A9', 'CD7070', 'F6BE2C', 'DDFF0D', '00FF00',
-        '964EA8', '0012B6', '108CFF', '0DA4AD', '00FFA3',
-        'FF83E4', 'CB8696', 'FF2727', '27FFF2', '135811',
-        'FD83FF', '272052', '2400FF', 'D5FFCE', 'FF7A00',
+        'FFC0C0', 'B2C3FF', 'FEC5FF', '17D3DE', 'C3AED8',
+        'FFA8A8', '97AEFF', 'FDA6FF', '15C0CA', 'B59DCC',
+        'FF8F8F', '809CFF', 'FD97FF', '11A4AD', '9D83B7',
+        'FF6F6F', '6688FF', 'FC5BFF', '0F8F97', '8D6FAA',
         '00C1FF'
     ]
     
