@@ -2,6 +2,7 @@
   "name": "week3_madcamp_exhibition",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://beoygnas.github.io/week3_madcamp_exhibition/",
   "dependencies": {
     "@react-three/drei": "^9.17.1",
     "@react-three/fiber": "^8.1.0",
