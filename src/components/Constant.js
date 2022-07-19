@@ -349,6 +349,23 @@ const Data = {
     
 }
 
+const GALLERY = [
+    '성익이 귀 빠진 기념 회식',
+    '남유성의 사랑이야기',
+    '신세계',
+    '상남자',
+    '몰입캠프 3주차',
+    '????',
+    '자강두천',
+    '',
+    '부 럽 다.',
+    '성익이 귀여워',
+    '',
+    ''
+
+
+]
+
 function hexToRGB(code) {
     let rStr = code.substring(0, 2)
     let gStr = code.substring(2, 4)
@@ -363,5 +380,5 @@ function hexToRGB(code) {
     }
 }
 
-export { BALL_RADIUS, BALL_RADIUS_OFFSET, Data, hexToRGB , Student, TYPE_CLICK, TYPE_DRAG, GO_BACK, GO_PROJECT, STAY , Projects }
+export { BALL_RADIUS, BALL_RADIUS_OFFSET, Data, hexToRGB , Student, TYPE_CLICK, TYPE_DRAG, GO_BACK, GO_PROJECT, STAY , Projects, GALLERY }
 

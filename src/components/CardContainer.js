@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react"
-import { Data } from "./Constant"
+import { Data, GALLERY } from "./Constant"
 import styled, { css } from "styled-components"
+import './CardContainer.css'
+
+
 
 export default function CardContainer() {
     let dpi = 100
@@ -31,6 +34,7 @@ export default function CardContainer() {
         cardList.push(
             <CardDiv cursor={listCursor + 20*i + 50} color={Data.color[i]} >
                 <Img src={require(`../assets/gallery/gallery${i}.png`)}></Img>
+                <Text color={Data.color[i]}>{GALLERY[i]}</Text>
             </CardDiv>
         )
     }
@@ -78,6 +82,22 @@ const CardDiv = styled.div.attrs(props => ({
 `
 
 const Img = styled.img`
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
     width: 90%;
     height: auto;
+`
+
+const Text = styled.div`
+    position:absolute;
+    top: 5%;
+    left: 110%;
+    width:auto;
+    font-size: 30px;
+    font-family: korean;
+    color: ${(props) => '#'+props.color};
+    padding: 5px;
+    background-color: #fffaf4;
 `
