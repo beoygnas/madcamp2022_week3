@@ -362,8 +362,6 @@ const GALLERY = [
     '성익이 귀여워',
     '',
     ''
-
-
 ]
 
 function hexToRGB(code) {

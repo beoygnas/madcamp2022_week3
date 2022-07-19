@@ -34,7 +34,7 @@ export default function CardContainer() {
         cardList.push(
             <CardDiv cursor={listCursor + 20*i + 50} color={Data.color[i]} >
                 <Img src={require(`../assets/gallery/gallery${i}.png`)}></Img>
-                <Text color={Data.color[i]}>{GALLERY[i]}</Text>
+                <Text cursor={listCursor + 20*i + 50} color={Data.color[i]}>{GALLERY[i]}</Text>
             </CardDiv>
         )
     }
@@ -91,6 +91,10 @@ const Img = styled.img`
 `
 
 const Text = styled.div`
+    visibility: ${(props) => {
+        if(props.cursor>45 && props.cursor < 55) return 'visible'
+        else return 'hidden'
+    }};
     position:absolute;
     top: 5%;
     left: 110%;
@@ -100,4 +104,5 @@ const Text = styled.div`
     color: ${(props) => '#'+props.color};
     padding: 5px;
     background-color: #fffaf4;
+    
 `
