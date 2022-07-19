@@ -107,7 +107,7 @@ class Ball {
         }
 
         //image draw
-        this.p.image(this.image, -this.radius * 0.75, -this.radius * 0.75 , this.radius * 1.5, this.radius * 1.5)
+        this.p.image(this.image, -this.radius * 0.8, -this.radius * 0.8 , this.radius * 1.6, this.radius * 1.6)
 
         //text draw
         this.p.strokeWeight(1);
@@ -178,7 +178,7 @@ class Ball {
 }
 
 class BallContainer {
-    constructor(p, num, students, type) {
+    constructor(p, num, students, type, container_images) {
         this.p = p
         this.num = num
         this.balls = []
@@ -187,6 +187,7 @@ class BallContainer {
         this.clicked = false
         this.collision_ignore = false
         this.stopped = false
+        this.container_images = container_images
         this.buildBalls()
     }
 
@@ -298,26 +299,25 @@ class BallContainer {
         }
         if(flag) this.collision_ignore = false
 
-        console.log(this.collision_ignore)
-        
         this.p.stroke(255, 255, 255);
+
         if(this.type == TYPE_CLICK){
             this.p.fill(0, 0, 0)
-            this.p.rect(0, 0, this.p.windowHeight * 0.1, this.p.windowHeight * 0.1)
+            this.p.image(this.container_images[1], 0, 0, this.p.windowHeight * 0.1, this.p.windowHeight * 0.1)
         }
         else{
             this.p.fill(255,0, 0)
-            this.p.rect(this.p.windowHeight * 0.1, 0, this.p.windowHeight * 0.1, this.p.windowHeight * 0.1)
+            this.p.image(this.container_images[2], this.p.windowHeight * 0.1, 0, this.p.windowHeight * 0.1, this.p.windowHeight * 0.1)
         }
         
         this.p.fill(0, 0, 255)
-        this.p.rect(0, this.p.windowHeight * 0.1, this.p.windowHeight * 0.1, this.p.windowHeight * 0.1)
+        this.p.image(this.container_images[0], 0, this.p.windowHeight * 0.1, this.p.windowHeight * 0.1, this.p.windowHeight * 0.1)
         
         this.p.fill(0, 255, 0)
-        this.p.rect(0, this.p.windowHeight * 0.2, this.p.windowHeight * 0.1, this.p.windowHeight * 0.1)
+        this.p.image(this.container_images[3], 0, this.p.windowHeight * 0.2, this.p.windowHeight * 0.1, this.p.windowHeight * 0.1)
 
         this.p.fill(0, 255, 255)
-        this.p.rect(0, this.p.windowHeight * 0.3, this.p.windowHeight * 0.1, this.p.windowHeight * 0.1)
+        this.p.image(this.container_images[4], 0, this.p.windowHeight * 0.3, this.p.windowHeight * 0.1, this.p.windowHeight * 0.1)
 
         for(const ball of this.balls) {
             ball.draw()
@@ -454,21 +454,24 @@ class BallDetail {
         this.projectMode = false
         this.pressed_x = 0
         this.pressed_y = 0
-        this.fix_x = false
+        this.fix_x = true
         this.fix_y = false
         this.mode = 0
         this.velocity = 0
     }
 
     draw(){
-    
+        
+        console.log(this.selected_ball.x)
+        
         if(!this.fix_x){
             this.selected_ball.x += this.velocity
             var tmp = this.selected_ball.x
             while(tmp < 0)
                 tmp += this.p.windowWidth
-            if(0.3 *this.p.windowWidth - tmp <= 30 && 0.3*this.p.windowWidth - tmp >= -30)
+            if(0.3 *this.p.windowWidth - tmp <= 30 && 0.3*this.p.windowWidth - tmp >= -30){
                 this.velocity = 0
+            }
         }
 
         if(!this.fix_y){   
@@ -476,8 +479,9 @@ class BallDetail {
             var tmp = this.selected_ball.y
             while(tmp < 0)
                 tmp += this.p.windowHeight
-            if(0.5 *this.p.windowHeight - tmp <= 30 && 0.5*this.p.windowHeight - tmp >= -30)
+            if(0.5 *this.p.windowHeight - tmp <= 30 && 0.5*this.p.windowHeight - tmp >= -30){
                 this.velocity = 0
+            }
         }
 
         if(
@@ -696,38 +700,44 @@ class BallDetail {
 
     mouseDragged(){
         
-        // if(this.selected_ball.x >= this.p.windowWidth * 0.25){
-        //     this.fix_x = true
-        //     this.fix_y = false
-        // }
+        if(this.velocity == 0){
+            var dif_x = Math.abs((this.p.mouseY - this.pressed_y))
+            var dif_y = Math.abs((this.p.mouseX - this.pressed_x))
+            
+            if(dif_x > dif_y){
+                this.fix_x = true
+                this.fix_y = false
+            }
+            else{
+                this.fix_x = false
+                this.fix_y = true
+            }
+        }
+
         if(
             (this.selected_ball.y + (this.p.mouseY - this.pressed_y) < this.p.windowHeight * 0.45 )&&
             (this.selected_ball.y + (this.p.mouseY - this.pressed_y) >
-            - this.p.windowHeight * 1) && !this.fix_y
+            - this.p.windowHeight * 1.3) && 
+            !this.fix_y && 
+            this.selected_ball.x > 0
         ){
             this.selected_ball.y += this.p.mouseY - this.pressed_y
             if((this.p.mouseY - this.pressed_y) < 0)
-                this.velocity = -30
+                this.velocity = -40
             else if((this.p.mouseY - this.pressed_y) > 0)
-                this.velocity = 30
+                this.velocity = 40
 
             this.pressed_y = this.p.mouseY
         }
-        // else if(this.selected_ball.y < - this.p.windowHeight * 0.25)
-        // {
-        //     this.fix_y = true
-        //     this.fix_x = false
-        // }
-
         if(
             this.selected_ball.x + (this.p.mouseX - this.pressed_x) <= this.p.windowWidth * 0.3 && !this.fix_x
         ){
             this.selected_ball.x += (this.p.mouseX - this.pressed_x)
 
             if((this.p.mouseX - this.pressed_x) < 0)
-                this.velocity = -30
+                this.velocity = -40
             else if((this.p.mouseX - this.pressed_x) > 0)
-                this.velocity = 30
+                this.velocity = 40
             this.pressed_x = this.p.mouseX
 
         }
