@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Data } from "./Constant"
 import styled, { css } from "styled-components"
 
@@ -26,9 +26,12 @@ export default function CardContainer() {
     function onClickListner(e) {
     }
 
-    for(let i=0; i<20; i++) {
+    for(let i=0; i<12; i++) {
+
         cardList.push(
-            <CardDiv cursor={listCursor + 20*i + 50} color={Data.color[i]} onClick={onClickListner}></CardDiv>
+            <CardDiv cursor={listCursor + 20*i + 50} color={Data.color[i]} >
+                <Img src={require(`../assets/gallery/gallery${i}.png`)}></Img>
+            </CardDiv>
         )
     }
 
@@ -74,3 +77,7 @@ const CardDiv = styled.div.attrs(props => ({
     `}
 `
 
+const Img = styled.img`
+    width: 90%;
+    height: auto;
+`

@@ -18,26 +18,27 @@ function ProjectBackground() {
         p.background(255, 250, 243)
         p.noStroke()
         
+        let ratio = img.width/img.height
+        let height = p.windowHeight * 0.8
+        let width = height*ratio
+        img.resize(Math.floor(width), Math.floor(height))
 
-        for(let col = 0; col<img.width; col+=10) {
-            for(let row = 0; row<img.height; row+=10) {
+        for(let col = 0; col<img.width; col+=5) {
+            for(let row = 0; row<img.height; row+=5) {
                 let c = img.get(col, row)
-                // p.stroke(p.color(c))
-                // p.strokeWeight(10)
                 points.push({
-                    row: row,
-                    col: col,
+                    row: row + Math.floor(p.windowHeight * 0.1),
+                    col: col + Math.floor((p.windowWidth-width)/2),
                     color: c
                 })
                 // p.set(col, row, p.color(c))
             }
         }
-        p.strokeWeight(10)
+        p.strokeWeight(5)
         scroll = new Scroll(p, points)
     }
 
     function draw(p) {
-        p.background(255, 250, 243)
         scroll.draw()
     }
 
