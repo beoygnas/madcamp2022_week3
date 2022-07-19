@@ -6,7 +6,7 @@ class Scroll {
         this.points = points
         this.numVisiblePoints = 0
         this.scroll = 0
-        this.numCard = 20
+        this.numCard = 15
     }
 
     updateScroll() {
