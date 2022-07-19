@@ -361,7 +361,7 @@ const GALLERY = [
     '진짜부럽다',
     '성익이 귀여워',
     '케익정산 언제해',
-    '으악'
+    '응애'
 ]
 
 function hexToRGB(code) {
