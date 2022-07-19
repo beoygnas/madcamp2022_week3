@@ -10,7 +10,7 @@ class Scroll {
     }
 
     updateScroll() {
-        let movement = (this.p.pmouseX - this.p.mouseX) / this.p.windowWidth * this.p.windowHeight * 0.24
+        let movement = (this.p.pmouseX - this.p.mouseX) / this.p.windowWidth * this.p.windowHeight * 0.45
         let pScroll = this.scroll
         this.scroll += movement
         if(this.scroll < 0 || this.scroll > this.p.windowHeight) this.scroll = pScroll

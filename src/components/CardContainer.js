@@ -20,7 +20,7 @@ export default function CardContainer() {
     function pointerMoveListner(e) {
         if(e.buttons) {
             let movement = listCursor + (e.clientX - pMouseX) / window.innerWidth * dpi
-            if(movement > 10 || movement < -390 ) return
+            if(movement > 10 || movement < -230 ) return
             setListCursor(movement)
             setPMouseX(e.clientX)
         }
