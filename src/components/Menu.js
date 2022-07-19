@@ -20,7 +20,7 @@ const MenuDiv = styled.div`
     transform: translate(-50%, -50%);
     width: 5vw;
     height: 5vw;
-    background-color: #FFFAF3;
+    background-color: transparent;
     border-radius: 50%;
     opacity : ${(props) => props.opacity};
     ;
