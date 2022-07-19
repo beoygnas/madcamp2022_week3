@@ -22,6 +22,7 @@ const Bounce = () => {
     var extraCanvas
     var selected_ball
     var ballDetail = null
+    var myFont ;
 
     const preload = (p, canvasParentRef) => {
 
@@ -40,14 +41,15 @@ const Bounce = () => {
                 Projects[i].img.push(img)
             }
         }
-        for(let i=0 ; i < 5 ; i++){
-            console.log(`assets/container_${i}}.png`)
+        for(let i=0 ; i <= 6 ; i++){
             container_images[i] = p.loadImage(`assets/container_${i}.png`)
         }
+
+        myFont = p.loadFont("assets/font/font.ttf")
     }
 
     const setup = (p, canvasParentRef) => {
-
+        p.textFont(myFont)
         for(let i = 0 ; i < numBalls ; i++){
             var student = new Student(
                                 Data.name[i], 
@@ -91,17 +93,11 @@ const Bounce = () => {
             
             p.fill("0, 0, 0")
 
-            if(ballDetail == null)
+            if(ballDetail == null){
                 ballDetail = new BallDetail(p, selected_ball)
-            
+                ballDetail.container_images = ballContainer.container_images
+            }
             ballDetail.draw()
-            
-            p.rect(
-                0.475 * p.windowWidth, 
-                0.05 * p.windowHeight, 
-                0.05 * p.windowHeight, 
-                0.05 * p.windowHeight
-            )
         }
 
 

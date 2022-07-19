@@ -40,12 +40,12 @@ class Ball {
         this.xOffset = 0
         this.yOffset = 0
         this.selected = 0
+        
 
         this.tmp_velocity = 0 
         this.tmp_degreeSpeed = 0
         this.xx = (Math.trunc(Data.name.indexOf(student.name) % 5) + 1) * (this.p.windowWidth / 6)
         this.yy = Math.trunc(Data.name.indexOf(student.name) / 5 + 1) *  (this.p.windowHeight / 5)
-
     }
 
     isMouseOn() {
@@ -79,6 +79,14 @@ class Ball {
                     this.recall = false
             }
         }
+
+        console.log(this.degree)
+        if(this.xx == this.x && this.yy == this.y){
+            if(this.degree >= 0.15)
+                this.degreeSpeed = -0.001
+            else if(this.degree <= -0.2)
+                this.degreeSpeed = 0.001
+        }   
     }
 
     draw() {
@@ -116,7 +124,6 @@ class Ball {
             this.p.textSize(this.radius * 0.25);
         }
         else{
-            this.p.stroke(200, 200, 200);
             this.p.fill(200, 200, 200);
             this.p.textSize(15);
         }        
@@ -152,6 +159,7 @@ class Ball {
                     + (this.p.mouseY - this.p.pmouseY) ** 2 )
             this.direction = 
             Math.atan2(this.p.mouseY - this.p.pmouseY, this.p.mouseX - this.p.pmouseX)
+            if(this.velocity == 0) this.velocity = 5
         }
     }
 
@@ -302,21 +310,45 @@ class BallContainer {
 
         if(this.type == TYPE_CLICK){
             this.p.fill(0, 0, 0)
-            this.p.image(this.container_images[1], 0, 0, this.p.windowHeight * 0.1, this.p.windowHeight * 0.1)
+            this.p.image(this.container_images[1], 
+                this.p.windowHeight * 0.05, 
+                this.p.windowHeight * 0.35, 
+                this.p.windowHeight * 0.05, 
+                this.p.windowHeight * 0.05)
         }
         else{
             this.p.fill(255,0, 0)
-            this.p.image(this.container_images[2], this.p.windowHeight * 0.1, 0, this.p.windowHeight * 0.1, this.p.windowHeight * 0.1)
+            this.p.image(this.container_images[2], 
+                this.p.windowHeight * 0.05, 
+                this.p.windowHeight * 0.30, 
+                this.p.windowHeight * 0.05, 
+                this.p.windowHeight * 0.05)
         }
         
-        this.p.fill(0, 0, 255)
-        this.p.image(this.container_images[0], 0, this.p.windowHeight * 0.1, this.p.windowHeight * 0.1, this.p.windowHeight * 0.1)
+        this.p.image(this.container_images[0], 
+            this.p.windowHeight * 0.05, 
+            this.p.windowHeight * 0.40, 
+            this.p.windowHeight * 0.05, 
+            this.p.windowHeight * 0.05)
         
-        this.p.fill(0, 255, 0)
-        this.p.image(this.container_images[3], 0, this.p.windowHeight * 0.2, this.p.windowHeight * 0.1, this.p.windowHeight * 0.1)
+        this.p.image(this.container_images[3], 
+            this.p.windowHeight * 0.05, 
+            this.p.windowHeight * 0.45, 
+            this.p.windowHeight * 0.05, 
+            this.p.windowHeight * 0.05)
 
-        this.p.fill(0, 255, 255)
-        this.p.image(this.container_images[4], 0, this.p.windowHeight * 0.3, this.p.windowHeight * 0.1, this.p.windowHeight * 0.1)
+        this.p.image(
+            this.container_images[4], 
+            this.p.windowHeight * 0.05, 
+            this.p.windowHeight * 0.50, 
+            this.p.windowHeight * 0.05, 
+            this.p.windowHeight * 0.05)
+        
+        this.p.image(this.container_images[5], 
+            this.p.windowHeight * 0.05, 
+            this.p.windowHeight * 0.55, 
+            this.p.windowHeight * 0.05, 
+            this.p.windowHeight * 0.05)
 
         for(const ball of this.balls) {
             ball.draw()
@@ -343,10 +375,12 @@ class BallContainer {
     }
 
     outClicked(){
-        if(this.p.mouseX > 0.475 * this.p.windowWidth && 
-            this.p.mouseX <= 0.475 * this.p.windowWidth + 0.05 * this.p.windowHeight && 
-            this.p.mouseY > 0.05 * this.p.windowHeight && 
-            this.p.mouseY <= 0.1 * this.p.windowHeight )
+        if( 
+            this.p.mouseX >= 0.81 * this.p.windowWidth && 
+            this.p.mouseX <= 0.81 * this.p.windowWidth 
+                            + 0.05 * this.p.windowHeight && 
+            this.p.mouseY >= 0.10 * this.p.windowHeight && 
+            this.p.mouseY <= 0.15 * this.p.windowHeight )
             return true
     }
 
@@ -362,23 +396,25 @@ class BallContainer {
         
         if(
             this.type == TYPE_CLICK && 
-            this.p.mouseX >= 0 && this.p.mouseX <= 0.1 * this.p.windowHeight &&
-            this.p.mouseY >= 0 && this.p.mouseY <= 0.1 * this.p.windowHeight
+            this.p.mouseX >= 0.05 * this.p.windowHeight && 
+            this.p.mouseX <= 0.1 * this.p.windowHeight &&
+            this.p.mouseY >= 0.35 * this.p.windowHeight && 
+            this.p.mouseY <= 0.40 * this.p.windowHeight
             )
             this.type = TYPE_DRAG;
         else if(
             this.type == TYPE_DRAG && 
-            this.p.mouseX >= 0.1 * this.p.windowHeight && 
-            this.p.mouseX <= 2 * 0.1 * this.p.windowHeight &&
-            this.p.mouseY >= 0 * this.p.windowHeight && 
-            this.p.mouseY <= 0.1 * this.p.windowHeight
+            this.p.mouseX >= 0.05 * this.p.windowHeight && 
+            this.p.mouseX <= 0.1 * this.p.windowHeight &&
+            this.p.mouseY >= 0.30 * this.p.windowHeight && 
+            this.p.mouseY <= 0.35 * this.p.windowHeight
         )
             this.type = TYPE_CLICK;
         else if(
-            this.p.mouseX >= 0 * this.p.windowHeight && 
+            this.p.mouseX >= 0.05 * this.p.windowHeight && 
             this.p.mouseX <= 0.1 * this.p.windowHeight &&
-            this.p.mouseY >= 0.1 * this.p.windowHeight && 
-            this.p.mouseY <= 2 * 0.1 * this.p.windowHeight
+            this.p.mouseY >= 0.40 * this.p.windowHeight && 
+            this.p.mouseY <= 0.45 * this.p.windowHeight
         ){
             if(!this.stopped){
                 this.stopped = true
@@ -394,10 +430,10 @@ class BallContainer {
         }
 
         else if(
-            this.p.mouseX >= 0 * this.p.windowHeight && 
+            this.p.mouseX >= 0.05 * this.p.windowHeight && 
             this.p.mouseX <= 0.1 * this.p.windowHeight &&
-            this.p.mouseY >= 0.2 * this.p.windowHeight && 
-            this.p.mouseY <= 3 * 0.1 * this.p.windowHeight
+            this.p.mouseY >= 0.45 * this.p.windowHeight && 
+            this.p.mouseY <= 0.50 * this.p.windowHeight
         ){
             for(const ball of this.balls) {
                 if(ball.tmp_velocity != 0)
@@ -411,18 +447,20 @@ class BallContainer {
         }
 
         else if(
-            this.p.mouseX >= 0 * this.p.windowHeight && 
+            this.p.mouseX >= 0.05 * this.p.windowHeight && 
             this.p.mouseX <= 0.1 * this.p.windowHeight &&
-            this.p.mouseY >= 0.3 * this.p.windowHeight && 
-            this.p.mouseY <= 4 * 0.1 * this.p.windowHeight
+            this.p.mouseY >= 0.50 * this.p.windowHeight && 
+            this.p.mouseY <= 0.55 * this.p.windowHeight
         ){
             if(this.stopped){
                 this.collision_ignore = true
                 for(const ball of this.balls) {
-                    ball.direction = Math.atan2(ball.yy - ball.y, ball.xx - ball.x)
-                    ball.velocity = 40
-                    ball.degreeSpeed = ball.tmp_degreeSpeed
-                    ball.recall = true
+                    if(!(ball.yy == ball.y && ball.xx == ball.x)){
+                        ball.direction = Math.atan2(ball.yy - ball.y, ball.xx - ball.x)
+                        ball.velocity = 40
+                        ball.degreeSpeed = ball.tmp_degreeSpeed
+                        ball.recall = true
+                    }
                 }
             }
         }
@@ -457,12 +495,12 @@ class BallDetail {
         this.fix_y = false
         this.mode = 0
         this.velocity = 0
+        this.container_images = []
     }
 
     draw(){
-        
-        console.log(this.selected_ball.x)
-        
+        console.log(this.selected_ball.x, this.selected_ball.y)
+    
         if(!this.fix_x){
             this.selected_ball.x += this.velocity
             var tmp = this.selected_ball.x
@@ -546,6 +584,14 @@ class BallDetail {
         // 텍스트 띄우기
         if(this.radius_expanded){
         
+
+            this.p.image(this.container_images[6], 
+                0.81 * this.p.windowWidth,
+                0.05 * this.p.windowHeight,
+                0.05 * this.p.windowHeight,
+                0.05 * this.p.windowHeight
+            )
+
             this.p.strokeWeight(1);
             this.p.stroke(255, 255, 255);
             this.p.fill(255, 255, 255);
@@ -555,14 +601,14 @@ class BallDetail {
         
             this.p.text(
                 `${this.selected_ball.name}`,
-                this.selected_ball.x - this.selected_ball.name.length * 18,
+                this.selected_ball.x - this.selected_ball.name.length * 20,
                 this.selected_ball.y + this.selected_ball.radius 
             )
             
             this.p.text(
                 "About me",
                 this.selected_ball.x + this.selected_ball.radius * 1.5 , 
-                this.selected_ball.y  - this.selected_ball.radius * 0.65
+                this.selected_ball.y  - this.selected_ball.radius * 0.70
             )
 
             const RGB = hexToRGB(this.selected_ball.color)
@@ -575,7 +621,7 @@ class BallDetail {
                 this.selected_ball.radius * 1.5, 
                 this.selected_ball.radius * 1.5)
 
-            this.p.strokeWeight(1);
+            this.p.noStroke();
             this.p.textSize(this.selected_ball.radius * 0.10);
             this.p.fill(255, 255, 255);
             this.p.text(
@@ -587,13 +633,13 @@ class BallDetail {
             var comment = Object.assign([], this.selected_ball.comment)            
             let i = 0
             
-            while(comment.length > 19){
+            while(comment.length > 16){
                 this.p.text(
-                    comment.slice(0, 19).join(""),
+                    comment.slice(0, 16).join(""),
                     this.selected_ball.x + this.selected_ball.radius * 1.6, 
                     this.selected_ball.y - this.selected_ball.radius * (0.1 - i)
                 )
-                comment = comment.slice(19)
+                comment = comment.slice(16)
                 i += 0.15;
             }
 
@@ -604,7 +650,7 @@ class BallDetail {
             )
             i += 0.30;
             this.p.text(
-                `취미는 ${this.selected_ball.hobby}이에요.`,
+                `취미는 ${this.selected_ball.hobby}(이)에요.`,
                 this.selected_ball.x + this.selected_ball.radius * 1.6, 
                 this.selected_ball.y - this.selected_ball.radius * (0.1 - i)
             )
@@ -614,8 +660,7 @@ class BallDetail {
         
         for(let k=1 ; k<=2 ; k++){
 
-            this.p.strokeWeight(1);
-            this.p.stroke(255, 255, 255);
+            this.p.noStroke()
             this.p.fill(255, 255, 255);
             this.p.textSize(this.selected_ball.radius * 0.25);
 
@@ -627,10 +672,10 @@ class BallDetail {
 
             this.p.image(this.selected_ball.student.projects[k-1].img[0],
                 (this.selected_ball.x + this.p.windowWidth) - 0.1*this.p.windowWidth,
-                this.selected_ball.y + k * this.p.windowHeight - 0.25*this.p.windowHeight,
+                this.selected_ball.y + k * this.p.windowHeight - 0.30*this.p.windowHeight,
                 270, 480)
 
-            this.p.textSize(this.selected_ball.radius * 0.10);
+            this.p.textSize(this.selected_ball.radius * 0.15);
 
             var comment = Object.assign([], 
                 this.selected_ball.student.projects[k-1].text[0])        
@@ -638,52 +683,52 @@ class BallDetail {
             let i = 0       
             while(comment.length != 0){
                 this.p.text(
-                    comment.slice(0, 30).join(""),
-                    (this.selected_ball.x + this.p.windowWidth) + 0.2*this.p.windowWidth, 
+                    comment.slice(0, 13).join(""),
+                    (this.selected_ball.x + this.p.windowWidth) + 0.15*this.p.windowWidth, 
                     (this.selected_ball.y + k * this.p.windowHeight) + 
-                    (0.2 - i) * this.p.windowHeight 
+                    (i - 0.23) * this.p.windowHeight 
                 )
-                comment = comment.slice(30)
-                i -= 0.05;
+                comment = comment.slice(13)
+                i += 0.05;
             }
 
             // 두 번쨰
             this.p.image(this.selected_ball.student.projects[k-1].img[1],
-                (this.selected_ball.x + 2*this.p.windowWidth) - 0.2*this.p.windowWidth,
-                this.selected_ball.y + k * this.p.windowHeight - 0.3*this.p.windowHeight,
+                (this.selected_ball.x + 2 * this.p.windowWidth) - 0.05 *this.p.windowWidth,
+                this.selected_ball.y + k * this.p.windowHeight - 0.35*this.p.windowHeight,
                 270, 480)
 
             this.p.image(this.selected_ball.student.projects[k-1].img[2],
-                (this.selected_ball.x + 2*this.p.windowWidth) + 0*this.p.windowWidth,
-                this.selected_ball.y + k * this.p.windowHeight - 0.3*this.p.windowHeight,
+                (this.selected_ball.x + 2 * this.p.windowWidth) + 0.25 *this.p.windowWidth,
+                this.selected_ball.y + k * this.p.windowHeight - 0.35*this.p.windowHeight,
                 270, 480)
-
+            
             this.p.textSize(this.selected_ball.radius * 0.10);
-
             var comment = Object.assign([], 
                 this.selected_ball.student.projects[k-1].text[1])        
 
             i = 0        
             while(comment.length != 0){
                 this.p.text(
-                    comment.slice(0, 30).join(""),
-                    (this.selected_ball.x + 2*this.p.windowWidth) + 0.2*this.p.windowWidth, 
+                    comment.slice(0, 35).join(""),
+                    (this.selected_ball.x + 2 * this.p.windowWidth) - 0.05*this.p.windowWidth, 
                     (this.selected_ball.y + k * this.p.windowHeight) + 
-                    (0.2 - i) * this.p.windowHeight 
+                    (0.30 - i) * this.p.windowHeight 
                 )
-                comment = comment.slice(30)
+                comment = comment.slice(35)
                 i -= 0.05;
             }
-        }    
+        }   
     }
 
 
     mouseClicked(){
         if(
-            this.p.mouseX >= this.p.windowWidth * 0.475 &&
-            this.p.mouseX <= this.p.windowWidth * 0.475 + this.p.windowHeight * 0.05 &&
-            this.p.mouseY >= this.p.windowHeight * 0.05 &&
-            this.p.mouseY <= this.p.windowHeight * 0.1
+            this.p.mouseX >= 0.81 * this.p.windowWidth && 
+            this.p.mouseX <= 0.81 * this.p.windowWidth 
+                            + 0.05 * this.p.windowHeight && 
+            this.p.mouseY >= 0.05 * this.p.windowHeight && 
+            this.p.mouseY <= 0.10 * this.p.windowHeight     
         ){
             return GO_BACK
         }
@@ -729,14 +774,19 @@ class BallDetail {
             this.pressed_y = this.p.mouseY
         }
         if(
-            this.selected_ball.x + (this.p.mouseX - this.pressed_x) <= this.p.windowWidth * 0.3 && !this.fix_x
+            this.selected_ball.x + (this.p.mouseX - this.pressed_x) <= this.p.windowWidth * 0.3 && !this.fix_x &&
+            this.selected_ball.y < 0 
         ){
             this.selected_ball.x += (this.p.mouseX - this.pressed_x)
 
-            if((this.p.mouseX - this.pressed_x) < 0)
+            if((this.p.mouseX - this.pressed_x) < 0){
                 this.velocity = -40
-            else if((this.p.mouseX - this.pressed_x) > 0)
+            }
+            else if((this.p.mouseX - this.pressed_x) > 0 && this.selected_ball.x < 0){
+
                 this.velocity = 40
+            }
+            
             this.pressed_x = this.p.mouseX
 
         }
