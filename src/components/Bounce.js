@@ -25,7 +25,7 @@ const Bounce = () => {
     const preload = (p, canvasParentRef) => {
 
         for(let i=0; i < numBalls ;i++){
-            images[i] = p.loadImage(`assets/profile/${Data.name[i]}.png`)
+            images[i] = p.loadImage(`${process.env.PUBLIC_URL}/assets/profile/${Data.name[i]}.png`)
         }
         for(let i=0 ; i < 20 ; i++){
             for(let j = 1 ; j <= 3 ; j++){
