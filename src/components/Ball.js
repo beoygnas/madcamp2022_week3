@@ -64,21 +64,20 @@ class Ball {
 
         this.x += dist_x
         this.y += dist_y
+    
+        this.degree += this.degreeSpeed
 
         if(this.recall){
-            
-            if(this.xx - this.x>= -5 && this.xx - this.x <= 5 &&
-                this.yy - this.y >= -5 && this.yy - this.y <= 5){
+        
+            if(this.xx - this.x>= -10 && this.xx - this.x <= 10 &&
+                this.yy - this.y >= -10 && this.yy - this.y <= 10){
                     this.x = this.xx
                     this.y = this.yy
                     this.velocity = 0
+                    this.degree = 0
+                    this.degreeSpeed = 0.001
                     this.recall = false
             }
-        }
-        this.degree += this.degreeSpeed
-
-        for(const particle of this.particles){
-            particle.move(dist_x, dist_y)
         }
     }
 
@@ -421,8 +420,8 @@ class BallContainer {
                 this.collision_ignore = true
                 for(const ball of this.balls) {
                     ball.direction = Math.atan2(ball.yy - ball.y, ball.xx - ball.x)
-                    ball.velocity = 20
-                    ball.degree = 0
+                    ball.velocity = 40
+                    ball.degreeSpeed = ball.tmp_degreeSpeed
                     ball.recall = true
                 }
             }
