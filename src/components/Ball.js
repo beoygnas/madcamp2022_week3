@@ -82,9 +82,9 @@ class Ball {
 
         console.log(this.degree)
         if(this.xx == this.x && this.yy == this.y){
-            if(this.degree >= 0.15)
+            if(this.degree >= 0.10)
                 this.degreeSpeed = -0.001
-            else if(this.degree <= -0.2)
+            else if(this.degree <= -0.10)
                 this.degreeSpeed = 0.001
         }   
     }
@@ -141,7 +141,6 @@ class Ball {
             this.locked = true;
             this.p.fill(0, 0, 0);
             this.velocity = 0;
-            
         }else{
             this.locked = false;
         }
@@ -159,7 +158,7 @@ class Ball {
                     + (this.p.mouseY - this.p.pmouseY) ** 2 )
             this.direction = 
             Math.atan2(this.p.mouseY - this.p.pmouseY, this.p.mouseX - this.p.pmouseX)
-            if(this.velocity == 0) this.velocity = 5
+            
         }
     }
 
