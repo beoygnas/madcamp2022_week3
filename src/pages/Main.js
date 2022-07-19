@@ -1,11 +1,9 @@
 import styled, { keyframes } from "styled-components";
 import './Main.css'
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom"
-import Member from "./Member";
-import Three from "./Three";
 import MainBackground from "../components/MainBackground";
-import Bounce from "../components/Bounce";
-import MainBackground2 from "../components/MainBackground2";
+import Menu from "../components/Menu";
+import profile from "../assets/profile0.png"
 
 function Main() {
     // const logo = document.querySelectorAll("#logo path")
@@ -15,9 +13,7 @@ function Main() {
     // }
     
     return <>
-        <MainBackground2>
-            
-        </MainBackground2>
+        <MainBackground></MainBackground>
         <svg id="logo" width="524" height="82" viewBox="0 0 524 82" fill="none" xmlns="http://www.w3.org/2000/svg">
         <mask id="path-1-outside-1_26_7" maskUnits="userSpaceOnUse" x="0.5" y="0.600006" width="523" height="81" fill="black">
         <rect fill="white" x="0.5" y="0.600006" width="523" height="81"/>
@@ -37,7 +33,12 @@ function Main() {
         <path d="M454.579 6.50001V76H443.179V28.4L421.979 76H414.079L392.779 28.4V76H381.379V6.50001H393.679L418.079 61L442.379 6.50001H454.579Z" stroke="white" strokeWidth="10" mask="url(#path-1-outside-1_26_7)"/>
         <path d="M518.162 27.2C518.162 30.7333 517.329 34.0667 515.662 37.2C513.996 40.3333 511.329 42.9 507.663 44.9C503.996 46.8333 499.296 47.8 493.562 47.8H480.962V76H469.562V6.50001H493.562C498.896 6.50001 503.396 7.43334 507.062 9.30001C510.796 11.1 513.562 13.5667 515.362 16.7C517.229 19.8333 518.162 23.3333 518.162 27.2ZM493.562 38.5C497.896 38.5 501.129 37.5333 503.263 35.6C505.396 33.6 506.462 30.8 506.462 27.2C506.462 19.6 502.163 15.8 493.562 15.8H480.962V38.5H493.562Z" stroke="white" strokeWidth="10" mask="url(#path-1-outside-1_26_7)"/>
         </svg>
-        
+        <Link to={"/member"}>
+            <Menu top={8} left={95} img={profile}></Menu>
+        </Link>
+        <Link to={"/project"}>
+            <Menu top={20} left={95} img={profile}></Menu>
+        </Link>
     </>
 }
 
@@ -58,12 +59,19 @@ function Main() {
 // `
 
 const LocationDiv = styled.div`
-    position: absolute;
-    top:50%;
-    left:50%;
-    background-color:black;
+    background-color:transparent;
     width: 20vw;
     height: 20vh;
+`
+const CircleDiv = styled.div`
+    position: absolute;
+    top:90%;
+    left:90%;
+    transform: translate(-50%, -50%);
+    width: 5vw;
+    height: 5vw;
+    background-color: white;
+    border-radius: 50%;
 `
 
 

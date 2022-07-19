@@ -6,6 +6,7 @@ import Member from './pages/Member';
 import Three from './pages/Three';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
+import Project from './pages/Project';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -19,11 +20,11 @@ const GlobalStyle = createGlobalStyle`
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Routes>
           <Route path = "/" element= {<Main/>}></Route>
           <Route path = "/member" element= {<Member/>}></Route>
-          <Route path = "/three" element= {<Three/>}></Route>
+          <Route path = "/project" element= {<Project/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>

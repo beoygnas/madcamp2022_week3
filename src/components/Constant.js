@@ -354,6 +354,8 @@ function hexToRGB(code) {
     let gStr = code.substring(2, 4)
     let bStr = code.substring(4, 6)
 
+    
+
     return {
         r: parseInt(rStr, 16),
         g: parseInt(gStr, 16),
