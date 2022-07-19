@@ -9,6 +9,7 @@ import { Student } from "./Constant";
 import { TYPE_DRAG } from "./Constant";
 import { TYPE_CLICK } from "./Constant";
 import { BallDetail } from "./Ball";
+import { Projects } from "./Constant";
 import { GO_BACK, GO_PROJECT, STAY} from "./Constant"; 
 
 const Bounce = () => {
@@ -25,7 +26,18 @@ const Bounce = () => {
 
         for(let i=0; i < numBalls ;i++){
             images[i] = p.loadImage(`assets/profile/${Data.name[i]}.png`)
-            
+        }
+        for(let i=0 ; i < 20 ; i++){
+            for(let j = 1 ; j <= 3 ; j++){
+                console.log(Projects[i].name)
+                var img 
+                if(i<10)
+                    img = p.loadImage(`assets/project_img/week1/${i+1}_${j}.png`)
+                else 
+                    img = p.loadImage(`assets/project_img/week2/${i-9}_${j}.png`)
+
+                Projects[i].img.push(img)
+            }
         }
     }
 
@@ -39,8 +51,15 @@ const Bounce = () => {
                                 Data.hakbeon[i], 
                                 Data.hobby[i], 
                                 Data.comment[i], 
-                                Data.color[i]
+                                Data.color[i],
                                 )
+
+            for(let k = 0 ;k < Projects.length ; k++){
+                for(let j=0 ; j < 2 ; j++){
+                    if(Projects[k].team[j] == Data.name[i])
+                        student.projects.push(Projects[k])
+                }
+            }
             students.push(student)
         }
         
@@ -56,24 +75,27 @@ const Bounce = () => {
     const draw = (p) => {
         
         p.background(255, 250, 243)
-        ballContainer.ballCollision()
-        ballContainer.wallCollision()
+        if(!ballContainer.collision_ignore){
+            ballContainer.ballCollision()
+            ballContainer.wallCollision()
+        }
         ballContainer.isMouseOn()
         ballContainer.draw(p)
 
         if(ballContainer.clicked == true){
             
             p.fill("0, 0, 0")
+
             if(ballDetail == null)
                 ballDetail = new BallDetail(p, selected_ball)
             
-            
             ballDetail.draw()
+            
             p.rect(
-                0.45 * p.windowWidth, 
-                0.9 * p.windowHeight, 
-                0.1 * p.windowHeight, 
-                0.1 * p.windowHeight
+                0.475 * p.windowWidth, 
+                0.05 * p.windowHeight, 
+                0.05 * p.windowHeight, 
+                0.05 * p.windowHeight
             )
         }
 
@@ -81,12 +103,10 @@ const Bounce = () => {
     }
 
     const mousePressed = (p) => {
-        console.log("he")
         if(ballContainer.type == 0)
             ballContainer.mousePressed(p)
         
         if(ballDetail != null){
-            // console.log("hi")
             ballDetail.mousePressed(p)
         }
     }
@@ -100,14 +120,13 @@ const Bounce = () => {
         if(ballContainer.type == 0)
             ballContainer.mouseDragged(p)
         if(ballDetail != null){
-            // console.log("hi")
             ballDetail.mouseDragged(p)
         }
     }
 
     const mouseClicked = (p) => {
 
-        if(ballContainer.type == 1 && ballDetail == null){
+        if(ballDetail == null){
             if(!ballContainer.clicked){
                 var tmp = ballContainer.mouseClicked(p)
                 if(tmp != false){
@@ -123,7 +142,7 @@ const Bounce = () => {
                 ballDetail = null   
             }
             else if(next_action == GO_PROJECT){
-                ballDetail.projectMode = true
+                // ballDetail.projectMode = true
             }
             else ;
         }
