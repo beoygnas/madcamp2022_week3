@@ -36,14 +36,9 @@
 * 좌측의 조작 버튼을 통해 공을 마우스로 잡고 튕길 수도 있고, 멈출 수도 있고, 정렬할 수도 있습니다.
 * 각 공을 클릭하면 해당 인물에 대한 상세 정보와 몰입캠프에서 했던 프로젝트를 볼 수 있습니다.
 
-
-<p>
-    <br>
-    <img src="https://i.imgur.com/JNeveqc.gif" height="49%" width="49%">
-    <img src="https://i.imgur.com/lrspyyV.gif" height="49%" width="49%">
-    <img src="https://i.imgur.com/bWl4mVf.gif" height="99%" width="99%">
-    <br><br><br>
-</p>
+![](https://i.imgur.com/JNeveqc.gif)
+![](https://i.imgur.com/lrspyyV.gif)
+![](https://i.imgur.com/bWl4mVf.gif)
 
 ## Gallery Page
 
