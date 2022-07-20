@@ -11,7 +11,7 @@
 ### 개발환경
 > * OS : Mac OS 
 > * Language : React, p5.js 
-> * IDE : Visual Studio Code
+> * IDE : Visual Studio Code
 
 ### URL
 > * https://beoygnas.github.io/week3_madcamp_exhibition/
@@ -31,12 +31,11 @@
 
 
 
-## Member Page
+## Member Page
 * p5js를 활용하여 몰입캠프 구성원들의 사진을 담은 공들이 자유롭게 움직이도록 화면을 구성했습니다.
 * 좌측의 조작 버튼을 통해 공을 마우스로 잡고 튕길 수도 있고, 멈출 수도 있고, 정렬할 수도 있습니다.
 * 각 공을 클릭하면 해당 인물에 대한 상세 정보와 몰입캠프에서 했던 프로젝트를 볼 수 있습니다.
 
- 
 
 <p>
     <br>
