@@ -26,10 +26,8 @@
 * Main page는 저희 웹사이트의 루트 페이지로 멤버 페이지, 갤러리 페이지로 이동할 수 있습니다.
 * 물감 자국에서 영감을 받은 디자인을 넣고, 마우스를 움직이면 물감이 튀기는 듯 한 효과를 주었습니다.
 
-![](https://i.imgur.com/iEtr5n3.gif)
-
 <p>
-    <img src="https://i.imgur.com/JNeveqc.gif" height="49%" width="49%">
+    <img src="https://i.imgur.com/JNeveqc.gif" height="100%" width="100%">
 </p>
 
 ## Member Page
