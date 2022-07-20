@@ -37,7 +37,9 @@
 * 각 공을 클릭하면 해당 인물에 대한 상세 정보와 몰입캠프에서 했던 프로젝트를 볼 수 있습니다.
 
 ![](https://i.imgur.com/JNeveqc.gif)
+
 ![](https://i.imgur.com/lrspyyV.gif)
+
 ![](https://i.imgur.com/bWl4mVf.gif)
 
 ## Gallery Page
@@ -45,7 +47,7 @@
 * react styled component를 활용하여 마우스 드래그를 통해 사진을 역동적으로 넘겨볼 수 있도록 만들었습니다.
 * 뒷 배경에 p5js를 통해 스크롤에 따라 점묘화가 조금씩 보이도록 만들었습니다.
 
-
+![](https://i.imgur.com/lrspyyV.gif)
 
 <p>
     <br>
