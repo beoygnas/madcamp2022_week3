@@ -1,0 +1,185 @@
+<html>
+    <head>
+        <script src = "https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/p5.min.js"></script>
+    </head>
+    <body>
+        <script>
+            let overCircle = false;
+            let locked =false;
+            let cx = 0;
+            let cy = 0;
+            let xOffset = 0;
+            let yOffset = 0;
+            let idx = 0;
+
+            function setup(){
+
+                createCanvas(800, 800);
+                background("gray");
+                
+                stroke("black");
+                fill('white');
+                strokeWeight(3);
+                
+                balls = Array();
+                for(let i=0 ; i<5 ; i++){
+                    var obj = new Object;
+                    obj.x = random(800);
+                    obj.y = random(800);
+                    obj.r = 100;
+                    obj.xdir = random(20) - 10;
+                    obj.ydir = random(20) - 10;
+                    obj.onMouse = false;
+                    obj.locked = false;
+                    obj.xOffset = 0.0;
+                    obj.yOffset = 0.0;
+                    obj.x_prev = 0.0;
+                    obj.y_prev = 0.0
+
+                    obj.dist = Array();
+                    for(let j=0; j < i;j++){
+                        var distance = pow(balls[j].x - obj.x, 2) + pow(balls[j].y - obj.y, 2);
+                        balls[j].dist.push(distance);
+                        obj.dist.push(distance);
+                    }
+
+                    obj.dist.push(0);
+                    balls.push(obj);
+                }
+            }
+
+            function draw(){ 
+
+                background("gray");
+                stroke('black');
+                fill('white');
+                
+                for(let i=0; i<5;i++){
+                
+                    if(pow(mouseX - balls[i].x, 2) + pow(mouseY - balls[i].y, 2) <= pow(balls[i].r, 2)){
+                        
+                        idx = i;
+                        
+                        if(balls[i].x_prev == 0 && balls[i].y_prev == 0 && balls[i].onMouse == false){
+                            balls[i].x_prev = balls[i].x;  
+                            balls[i].y_prev = balls[i].y;
+                        } 
+                    
+                        balls[i].onMouse = true;
+                        if(!balls[i].locked){
+                            stroke('white');
+                            fill('red');
+                        }                        
+                    }
+                    else {
+                        stroke('black');
+                        fill('white');
+                        balls[i].onMouse = false;
+                    }
+
+                    for(let j = 0; j < 5; j++){
+                        if(i == j) continue;
+                    
+                        if(balls[i].dist[j] < pow(balls[i].r, 2)){
+                            
+                            if(balls[i].x > balls[j].x)
+                                balls[i].xdir = random(10);
+                            else 
+                                balls[i].xdir = -random(10);
+                            
+                            if(balls[i].y > balls[j].y)
+                                balls[i].ydir = random(10);
+                            else 
+                                balls[i].ydir = - random(10);
+                        }
+                    }
+                    //부딪히지 않는 경우
+                    if(balls[i].x<=0 && balls[i].y<=0){
+                        balls[i].xdir = random(10);
+                        balls[i].ydir = random(10);
+                    }
+                    else if(balls[i].x>=800 && balls[i].y>=800){
+                        balls[i].xdir = -random(10);
+                        balls[i].ydir = -random(10);
+                    }
+                    else if(balls[i].x>=800 && balls[i].y <= 0){
+                        balls[i].xdir = -random(10);
+                        balls[i].ydir = random(10);
+                    }
+                    else if(balls[i].x<=0 && balls[i].y>=800){
+                        balls[i].xdir = random(10);
+                        balls[i].ydir = -random(10);
+                    }
+                    else if(balls[i].x<=0 && balls[i].y>0){
+                        balls[i].xdir = random(10);
+                    }
+                    else if(balls[i].x>0 && balls[i].y<=0){
+                        balls[i].ydir = random(10);
+                    }
+                    else if(balls[i].x>=800 && balls[i].y>0){
+                        balls[i].xdir = -random(10);
+                    }
+                    else if(balls[i].x>0 && balls[i].y>=800){
+                        balls[i].ydir = -random(10);
+                    }
+                
+                    balls[i].x = balls[i].x + balls[i].xdir;
+                    balls[i].y = balls[i].y + balls[i].ydir;
+                
+                    circle(balls[i].x, balls[i].y, balls[i].r); 
+                }
+            
+                for(let i=0 ; i<5 ;i++){
+                    for(let j=0 ; j<5 ; j++){
+                        balls[i].dist[j] = pow(balls[j].x - balls[i].x, 2) + pow(balls[j].y - balls[i].y, 2);
+                    }
+                }
+            }
+
+            function mousePressed(){
+                
+                // console.log(idx);
+                // console.log(balls[idx].onMouse);
+                if(balls[idx].onMouse){
+                    balls[idx].locked = true;
+                    
+                    fill('whtie');
+                }
+                else 
+                    balls[idx].locked = false;
+                
+                balls[idx].xdir = 0;
+                balls[idx].ydir = 0;
+                balls[idx].xOffset = mouseX - balls[idx].x;
+                balls[idx].yOffset = mouseY - balls[idx].y;
+            }
+
+            function mouseDragged(){
+                if(balls[idx]){
+                    balls[idx].x = mouseX - balls[idx].xOffset;
+                    balls[idx].y = mouseY - balls[idx].yOffset;
+                }
+                console.log(balls[idx].xOffset, balls[idx].yOffset);
+                balls[idx].xdir = 0;
+                balls[idx].ydir = 0;
+
+            }
+
+            function mouseReleased(){
+                balls[idx].locked = false;
+                balls[idx].onMouse = false;
+
+                balls[idx].xdir = -(balls[idx].x_prev - balls[idx].x)/100;
+                balls[idx].ydir = -(balls[idx].y_prev - balls[idx].y)/100;
+ 
+                balls[idx].x_prev = 0;
+                balls[idx].y_prev = 0;
+
+                console.log(balls[idx].x, balls[idx].y);
+                console.log(balls[idx].x_prev, balls[idx].y_prev);
+            }
+
+            
+        </script>
+    </body>
+</html>
