@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+  import logo from './logo.svg';
 import Bounce from './components/Bounce';
 import './App.css';
 import Main from './pages/Main';
