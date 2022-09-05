@@ -14,7 +14,7 @@
 > * IDE : Visual Studio Code
 
 ### URL
-> * https://beoygnas.github.io/week3_madcamp_exhibition/
+> * https://beoygnas.github.io/madcamp2022_week3/
 
 <br>
 ## Overview
